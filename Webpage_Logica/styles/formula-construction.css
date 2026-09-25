@@ -1,0 +1,85 @@
+.formula-construction {
+    margin-top: 14px;
+}
+
+.formula-construction-toggle {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    background: var(--surface-2);
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.formula-construction-toggle:focus-visible {
+    outline: 3px solid var(--focus-ring, currentColor);
+    outline-offset: 2px;
+}
+
+.formula-construction-panel {
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    background: var(--surface-1);
+}
+
+.formula-construction-trace + .formula-construction-trace {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-mid);
+}
+
+.formula-construction-title {
+    margin: 0 0 10px;
+    font-size: 1rem;
+}
+
+.formula-construction-steps {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding-left: 30px;
+}
+
+.formula-construction-step {
+    padding: 8px 10px;
+    border-left: 3px solid var(--border-mid);
+    background: var(--surface-2);
+}
+
+.formula-construction-step.is-final {
+    border-left-color: var(--success-text);
+}
+
+.formula-construction-explanation,
+.formula-construction-formula {
+    display: block;
+}
+
+.formula-construction-formula {
+    margin-top: 5px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+@media (max-width: 600px) {
+    .formula-construction-panel {
+        padding: 9px;
+    }
+
+    .formula-construction-steps {
+        padding-left: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .formula-construction-toggle,
+    .formula-construction-panel {
+        scroll-behavior: auto;
+        transition: none;
+    }
+}

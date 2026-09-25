@@ -1,0 +1,594 @@
+/* Trigger, overlay e struttura del pannello impostazioni. */
+.settings-trigger {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1200;
+    min-width: 56px;
+    font-size: 28px;
+    line-height: 1;
+    margin: 0;
+    text-align: center;
+}
+
+.settings-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1300;
+    padding: 16px;
+}
+
+.settings-overlay[hidden] {
+    display: none;
+}
+
+.settings-modal {
+    width: min(560px, 100%);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--box-bg);
+    border: 2px solid var(--box-border);
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.settings-modal h2 {
+    margin: 0 0 12px;
+    text-align: center;
+}
+
+.settings-modal h3 {
+    margin: 10px 0 8px;
+    font-size: 1em;
+    color: var(--muted);
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.settings-input {
+    width: 90px;
+    border-radius: 8px;
+    padding: 6px 8px;
+    text-align: right;
+}
+
+.settings-input-wide {
+    width: 180px;
+    text-align: left;
+}
+
+.settings-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.settings-privacy-actions .btn-wide {
+    flex: 1 1 10rem;
+    min-width: 0;
+}
+
+.settings-row > input[type="checkbox"] {
+    flex: 0 0 auto;
+}
+
+.settings-row > input[type="checkbox"] + label {
+    flex: 1 1 14rem;
+    min-width: 0;
+    text-align: left;
+}
+
+/* Azioni e controlli della home/index. */
+.index-boxes {
+    max-width: 560px;
+    margin: 24px auto;
+    display: grid;
+    gap: 16px;
+}
+
+.index-actions-box {
+    margin: 0;
+}
+
+.index-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 14px;
+}
+
+.index-actions .btn-wide {
+    display: inline-block;
+    width: auto;
+    align-self: center;
+    text-align: center;
+    text-decoration: none;
+}
+
+.index-intro-text {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.index-corner {
+    position: fixed;
+    bottom: 16px;
+    max-width: min(38vw, 420px);
+    font-size: 0.92rem;
+    line-height: 1.35;
+    color: var(--muted);
+}
+
+.index-corner p {
+    margin: 0;
+}
+
+.index-corner-left {
+    left: 20px;
+    text-align: left;
+}
+
+.index-corner-right {
+    right: 20px;
+    text-align: right;
+}
+
+@media (max-width: 900px) {
+    .index-corner {
+        position: static;
+        max-width: none;
+        margin: 14px auto 0;
+        text-align: center;
+    }
+
+    .index-corner-left,
+    .index-corner-right {
+        left: auto;
+        right: auto;
+        text-align: center;
+    }
+}
+
+/* Blocchi contenuto e controlli comuni degli esercizi. */
+.rounded-box {
+    padding: 20px;
+    background-color: var(--box-bg);
+    border: 2px solid var(--box-border);
+    border-radius: 8px;
+}
+
+.expressionInput{
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: transparent;
+    color: var(--fg);
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.lesson-expression-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.controls{
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.expressionInput.is-correct {
+    border-color: var(--success-border);
+    background: var(--success-bg);
+}
+
+.expressionInput.is-wrong {
+    border-color: var(--error-border);
+    background: var(--error-bg);
+}
+
+.lesson-expression-input-wrap.has-feedback .expressionInput {
+    padding-right: 130px;
+}
+
+.lesson-expression-status {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.86em;
+    text-align: right;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.lesson-expression-input-wrap .quiz-status.lesson-expression-status {
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    min-height: 0;
+    line-height: 1;
+}
+
+.btn-wide{
+    border-radius: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--border-soft);
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-wide:hover,
+.deleteBtn:hover{
+    background: var(--hover-bg);
+}
+
+.deleteBtn{
+    border-radius: 10px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-soft);
+    background: transparent;
+    color: var(--fg);
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.controls:has(.deleteBtn)::after {
+    content: "";
+    flex-basis: 100%;
+    order: 1;
+}
+
+.controls .deleteBtn {
+    order: 2;
+    flex: 0 0 auto;
+    width: auto;
+    margin: 2px auto 0;
+}
+
+button[onclick="check()"],
+button[onclick^="checkArray"]{
+    display: block;
+    margin: 10px auto;
+    border-radius: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--border-soft);
+    background: transparent;
+    color: var(--fg);
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button[onclick="check()"]:hover,
+button[onclick^="checkArray"]:hover{
+    background: var(--hover-bg);
+}
+
+button[onclick="check()"]:disabled,
+button[onclick^="checkArray"]:disabled{
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+/* Tabelle didattiche standard e varianti compatte. */
+.table{
+    max-width: 900px;
+    width: 100%;
+    overflow: auto;
+    margin: 0 0 1rem 0;
+}
+
+.table table{
+    border-collapse: collapse;
+    width: 100%;
+    max-width: none;
+    border: 2px solid var(--box-border);
+}
+
+.table th,
+.table td{
+    border: 1px solid var(--box-border);
+    padding: 8px 10px;
+    text-align: center;
+}
+
+table thead th,
+.table thead th,
+.table th{
+    text-transform: none;
+}
+
+.table_inv{
+    width: 100%;
+    max-width: 400px;
+    overflow: auto;
+    margin: 0 auto 1rem;
+}
+
+.table_inv table{
+    border-collapse: collapse;
+    width: 100%;
+    border: none;
+}
+
+.table_inv th,
+.table_inv td{
+    border: none;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Evidenziatore contenuti importanti. */
+.important{
+    background-color: var(--important-bg);
+    border: none;
+    border-radius: 8px;
+    padding: 18px;
+    color: var(--fg);
+}
+
+body::after{
+    content: "";
+    display: block;
+    height: 16vh;
+    width: 100%;
+    pointer-events: none;
+}
+
+#quizReviewNav[hidden] {
+    display: none !important;
+}
+
+/* Ensure the bottom index nav respects the hidden attribute (overrides .lesson-nav) */
+#quizIndexNav[hidden] {
+    display: none !important;
+}
+
+/* Navigazione tra lezioni (precedente/successivo e switcher laterale). */
+.lesson-nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 56px;
+    padding: 8px;
+    border: none;
+    background: transparent;
+}
+
+.lesson-nav-btn {
+    min-width: 120px;
+    text-align: center;
+    padding: 8px 14px;
+    color: var(--fg);
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    background: transparent;
+    display: inline-block;
+    position: static;
+    max-width: 100%;
+    transform: none;
+    overflow-wrap: anywhere;
+}
+
+.lesson-nav-btn:first-child {
+    left: auto;
+}
+
+.lesson-nav-btn:last-child {
+    left: auto;
+}
+
+.lesson-nav-btn:hover {
+    background: var(--hover-bg);
+}
+
+.lesson-nav-btn.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.lesson-nav.lesson-nav-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lesson-nav.lesson-nav-center .lesson-nav-btn {
+    position: static;
+    transform: none;
+    left: auto;
+}
+
+#quizReviewNav {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 0;
+    padding: 20px;
+}
+
+#quizReviewNav .quiz-export-summary {
+    flex: 0 0 100%;
+    margin: 0 0 4px;
+    text-align: center;
+}
+
+#quizReviewNav .lesson-nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 11rem;
+    width: auto;
+    min-width: 0;
+    min-height: 44px;
+}
+
+.lesson-switcher {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+}
+
+.lesson-switcher summary {
+    list-style: none;
+    display: inline-block;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 1002;
+}
+
+.lesson-switcher summary::-webkit-details-marker {
+    display: none;
+}
+
+.lesson-switcher-symbol {
+    font-size: 28px;
+    line-height: 1;
+    margin: 0;
+    min-width: 56px;
+    text-align: center;
+}
+
+.lesson-switcher-list {
+    display: none;
+}
+
+.lesson-switcher[open] {
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: calc(100vh - 16px);
+    background: var(--box-bg);
+    border: 1px solid var(--box-border);
+    border-radius: 10px;
+    padding: 64px 16px 12px;
+    overflow: auto;
+}
+
+.lesson-switcher[open] .lesson-switcher-list {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.lesson-switcher-link {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--fg);
+    background: transparent;
+    border: 1px solid var(--border-soft);
+}
+
+.lesson-switcher-link:hover {
+    background: var(--hover-bg);
+}
+
+/* Adattamenti layout su viewport piccoli. */
+.centered-action {
+    margin: 28px 0;
+    text-align: center;
+}
+
+.centered-action-top {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.quiz-intro-note {
+    margin-bottom: 16px;
+    color: var(--muted);
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+    body {
+        height: auto;
+        min-height: 100%;
+        margin: 0;
+        padding: 3vh 6%;
+        text-align: left;
+    }
+
+    h1 {
+        font-size: 1.3em;
+        line-height: 1.25;
+    }
+
+    h2,
+    h3 {
+        font-size: 1em;
+        line-height: 1.35;
+    }
+
+    legend {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    #main-content {
+        padding-top: 52px;
+    }
+
+    .lesson-expression-input-wrap.has-feedback .expressionInput {
+        padding-right: 12px;
+    }
+
+    .lesson-expression-input-wrap .lesson-expression-status,
+    .lesson-expression-input-wrap .quiz-status.lesson-expression-status {
+        position: static;
+        transform: none;
+        margin-top: 6px;
+        text-align: right;
+        white-space: normal;
+    }
+}
+
+.lesson-bookmark-button {
+    font-size: 0.75rem;
+    margin-left: 0.75rem;
+    padding: 0.35rem 0.55rem;
+    vertical-align: middle;
+}
+
+.lesson-completion-controls {
+    margin: 1rem auto;
+    max-width: 52rem;
+}

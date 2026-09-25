@@ -1,0 +1,83 @@
+x-feedback-runtime: &feedback-runtime
+  build:
+    context: .
+    dockerfile: Dockerfile
+  restart: unless-stopped
+  init: true
+  user: "${FEEDBACK_UID:-1000}:${FEEDBACK_GID:-1000}"
+  environment:
+    FEEDBACK_UID: ${FEEDBACK_UID:-1000}
+    FEEDBACK_GID: ${FEEDBACK_GID:-1000}
+    FEEDBACK_STORAGE_DIR: ${FEEDBACK_STORAGE_DIR:-/app/data/receipts}
+    FEEDBACK_CHARTS_DIR: ${FEEDBACK_CHARTS_DIR:-/app/data/charts}
+    FEEDBACK_RETENTION_DAYS: ${FEEDBACK_RETENTION_DAYS:-365}
+    FEEDBACK_MAX_BODY_BYTES: ${FEEDBACK_MAX_BODY_BYTES:-2097152}
+    FEEDBACK_MAX_RECEIPTS: ${FEEDBACK_MAX_RECEIPTS:-100000}
+    FEEDBACK_MAX_STORAGE_BYTES: ${FEEDBACK_MAX_STORAGE_BYTES:-1073741824}
+    FEEDBACK_MIN_FREE_BYTES: ${FEEDBACK_MIN_FREE_BYTES:-67108864}
+    FEEDBACK_MIN_AGGREGATE_SESSIONS: ${FEEDBACK_MIN_AGGREGATE_SESSIONS:-10}
+    FEEDBACK_SNAPSHOTS_TO_KEEP: ${FEEDBACK_SNAPSHOTS_TO_KEEP:-3}
+    FEEDBACK_PUBLISH_INTERVAL_SECONDS: ${FEEDBACK_PUBLISH_INTERVAL_SECONDS:-86400}
+    FEEDBACK_RETENTION_INTERVAL_SECONDS: ${FEEDBACK_RETENTION_INTERVAL_SECONDS:-3600}
+    FEEDBACK_WORKER_HEARTBEAT_SECONDS: ${FEEDBACK_WORKER_HEARTBEAT_SECONDS:-15}
+    FEEDBACK_WORKER_STALE_SECONDS: ${FEEDBACK_WORKER_STALE_SECONDS:-60}
+    FEEDBACK_WORKER_JOB_TIMEOUT_SECONDS: ${FEEDBACK_WORKER_JOB_TIMEOUT_SECONDS:-900}
+    FEEDBACK_WORKER_MODE: external
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  read_only: true
+  tmpfs:
+    - /tmp:size=128m,mode=1777,nosuid,nodev,noexec
+  volumes:
+    - type: bind
+      source: ${FEEDBACK_DATA_DIR:-./data}
+      target: /app/data
+      bind:
+        create_host_path: false
+        selinux: z
+  networks:
+    - feedback-private
+  pids_limit: 128
+  stop_grace_period: ${FEEDBACK_STOP_GRACE_SECONDS:-960}s
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "3"
+
+services:
+  feedback-worker:
+    <<: *feedback-runtime
+    command: ["python", "-m", "feedback_service.worker"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "feedback_service.worker", "--check"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 10s
+
+  feedback:
+    <<: *feedback-runtime
+    depends_on:
+      feedback-worker:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${FEEDBACK_PORT:-5555}:5555"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5555/ready', timeout=3).read()",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+networks:
+  feedback-private:
+    internal: true

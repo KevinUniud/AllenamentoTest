@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#243b53">
+    <meta name="description" content="Informazioni sui dati locali e sui consensi di TestLogica.">
+    <title>Dati e privacy</title>
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/study-tools.css">
+    <link rel="stylesheet" href="styles/themes.css">
+</head>
+<body>
+    <script src="scripts/settings-preferences.js"></script>
+    <script src="scripts/app-events.js"></script>
+    <script src="scripts/data-contracts.js"></script>
+    <script src="scripts/privacy-controls.js"></script>
+    <script src="scripts/app-storage.js"></script>
+    <script src="scripts/settings.js?v=3"></script>
+    <script src="scripts/app.js"></script>
+    <main id="main-content" class="study-page" tabindex="-1">
+        <h1>Dati e privacy</h1>
+        <section class="study-card">
+            Salvataggio locale
+
+            <p>È disattivato per impostazione predefinita. Se lo abiliti, sessioni incomplete, tentativi, quaderno errori e progresso delle lezioni vengono conservati soltanto in questo browser. Le sessioni incomplete scadono dopo 30 giorni; tentativi, errori e sessioni concluse dopo un anno. Il progresso delle lezioni resta finché non lo elimini.</p>
+
+            Feedback senza nome o account
+            
+            <p>L'invio al servizio feedback è separato dal salvataggio locale ed è disattivato per impostazione predefinita. Il quiz invia il report soltanto dopo il tuo consenso e una conferma finale. Il proxy non inoltra al servizio gli header con il tuo indirizzo IP e disattiva il log di accesso per questa route. Usa temporaneamente l'indirizzo per limitare richieste ripetute; eventuali log tecnici di errore o di superamento del limite dipendono dalla configurazione e dalla conservazione scelte dal gestore dell'installazione.</p>
+
+            Dati inclusi nel feedback
+
+            <p>Il report contiene data e ora d'inizio, durata, numero di domande corrette ed errate, opzioni attive e le cinque valutazioni da 1 a 5. Per ogni domanda contiene tipologia, tempo di risposta, esito, testo della domanda, risposte mostrate, risposta scelta e risposta corretta. Non vengono aggiunti nome o account, ma timestamp, contenuti e dati demografici eventualmente autorizzati non permettono di garantire l'anonimato assoluto. Un UUIDv4 casuale viene inviato separatamente nell'header tecnico <code>Idempotency-Key</code> per riconoscere i retry: non viene aggiunto al report JSON ed è rigenerato per un nuovo report.</p>
+
+            Dati demografici
+
+            <p>Età, istituto e indirizzo sono facoltativi e vengono inclusi nel feedback soltanto con un consenso aggiuntivo. Non fanno parte di sessioni, errori o dashboard.</p>
+
+            Conservazione e revoca
+
+            <p>I report restano sul backend per 365 giorni per impostazione predefinita; il gestore può configurare una durata diversa e i dati scaduti vengono eliminati automaticamente. Revocare il consenso impedisce nuovi invii, ma non cancella i report già trasmessi.</p>
+
+            Grafici aggregati
+
+            <p>Il servizio feedback usa i report raccolti per creare grafici aggregati con una cadenza configurabile, pari a un giorno per impostazione predefinita. La richiesta di invio salva soltanto il report e non avvia la generazione. La galleria pubblica legge soltanto un manifest tecnico e immagini PNG: non rende disponibili i report JSON, le risposte individuali o i dati grezzi. Mostra la data di pubblicazione e il numero complessivo di sessioni aggregate dichiarato dal manifest validato. Il controllo automatico avviene con frequenza moderata soltanto mentre la pagina dei grafici è visibile ed è disponibile anche un aggiornamento manuale. Il sito Web non incorpora grafici storici, nemmeno demografici: quando un grafico non è pubblicato dal servizio mostra soltanto un segnaposto SVG privo di dati.</p>
+
+            Controlli disponibili
+            
+            <p>Apri le impostazioni per modificare o revocare i consensi, esportare l'archivio locale e cancellare sessioni, progressi oppure tutti i dati.</p>
+        </section>
+        <nav class="rounded-box lesson-nav" aria-label="Navigazione privacy"><a class="lesson-nav-btn" href="index.html">Torna all'indice</a></nav>
+    </main>
+</body>
+</html>

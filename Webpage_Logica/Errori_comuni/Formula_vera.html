@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Equivalenza Logica</title>
+	
+	<link rel="stylesheet" href="../styles/base.css">
+	<link rel="stylesheet" href="../styles/components.css">
+	<link rel="stylesheet" href="../styles/quiz.css">
+	<link rel="stylesheet" href="../styles/themes.css">
+	<link rel="stylesheet" href="../styles/errori.css">
+</head>
+
+<body class="esiste-original">
+	
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+	<script src="../scripts/app.js"></script>
+
+	<main id="main-content" tabindex="-1">
+	
+	<div class="container">
+		
+		<h1>Verità</h1>
+		
+		<div class="rounded-box">
+			
+			<h2>Domanda</h2>
+			
+			<p>
+				Quale formula è vera tra le seguenti?
+			</p>    
+			
+			<div class="note">
+				<p>Sappiamo che:</p>
+				<ul>
+					<li>P è falso</li>
+					<li>Q è falso</li>
+					<li>R è falso</li>
+				</ul>
+			</div>
+
+			<ul>
+				<li>Q ∧ (R → P)</li>
+				<li>P ∨ (Q ∧ R)</li>
+				<li>¬P ∧ (Q ↔ R)</li>
+				<li>¬P ∧ Q ∧ R</li>
+			</ul>
+			
+		</div>
+		
+		<div class="arrow">↓</div>
+		
+		<div class="rounded-box">
+			
+			<h2>Risoluzione esercizio</h2>
+			
+			<p>
+				Una formula è vera sotto una certa interpretazione se, sostituendo agli 
+				atomi i valori di verità assegnati dall'interpretazione e valutando la 
+				formula secondo le regole dei connettivi logici, si ottiene il valore T.
+			</p>
+
+			<p>
+				Per la risoluzione dell'esercizio sostituiamo semplicemente gli atomi con i valori forniti.
+			</p>
+
+			<div class="formula">
+      Q ∧ (R → P)
+			</div>
+			<div class="formula">
+      F ∧ (<u>F → F</u>)
+			</div>
+			<div class="formula">
+      <u>F ∧ T</u>
+			</div>
+			<div class="formula">
+      F
+			</div>
+
+			<p>Questa formula è False.</p>
+
+			<div class="formula">
+      P ∨ (Q ∧ R)
+			</div>
+			<div class="formula">
+      F ∨ (<u>F ∧ F</u>)
+			</div>
+			<div class="formula">
+      <u>F ∨ F</u>
+			</div>
+			<div class="formula">
+      F
+			</div>
+
+			<p>Questa formula è False.</p>
+
+			<div class="formula">
+      ¬P ∧ (Q ↔ R)
+			</div>
+			<div class="formula">
+      ¬F ∧ (<u>F ↔ F</u>)
+			</div>
+			<div class="formula">
+      <u>¬F</u> ∧ T
+			</div>
+			<div class="formula">
+      <u>T ∧ T</u>
+			</div>
+			<div class="formula">
+      T
+			</div>
+
+			<p>Questa formula è True.</p>
+
+			<p> Quindi la risposta alla domanda "Quale formula è vera tra le seguenti?" è ¬P ∧ (Q ↔ R).</p>
+
+		</div>
+
+</div>
+
+<nav class="centered-action" aria-label="Navigazione errori comuni">
+  <a class="btn-wide" href="index.html">Torna a Errori Comuni</a>
+</nav>
+
+</main>
+
+</body>
+</html>

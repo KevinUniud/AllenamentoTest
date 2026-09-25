@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: feedback-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install development dependencies
+        env:
+          PIP_DISABLE_PIP_VERSION_CHECK: "1"
+        run: python -m pip install -e ".[dev]"
+
+      - name: Verify installed dependencies
+        run: python -m pip check
+
+      - name: Ruff
+        run: python -m ruff check feedback_service tests
+
+      - name: mypy
+        run: python -m mypy feedback_service
+
+      - name: pytest
+        env:
+          MPLCONFIGDIR: ${{ runner.temp }}/matplotlib
+        run: python -m pytest
+
+      - name: Validate host-data helper and Compose model
+        run: |
+          sh -n scripts/prepare-data.sh
+          FEEDBACK_UID="$(id -u)" FEEDBACK_GID="$(id -g)" ./scripts/prepare-data.sh
+          FEEDBACK_UID="$(id -u)" FEEDBACK_GID="$(id -g)" ./scripts/prepare-data.sh --check
+          docker compose config --quiet
+
+      - name: Build Docker image
+        run: |
+          docker build --pull --target test --tag testlogica-feedback:test .
+          docker build --tag testlogica-feedback:ci .
+
+      - name: Verify non-root image default
+        run: test "$(docker image inspect --format '{{.Config.User}}' testlogica-feedback:ci)" = "1000:1000"
+
+      - name: Smoke test private worker and host-owned bind data
+        env:
+          FEEDBACK_PUBLISH_INTERVAL_SECONDS: "2"
+        run: |
+          export FEEDBACK_UID="$(id -u)"
+          export FEEDBACK_GID="$(id -g)"
+          cleanup() { docker compose down --remove-orphans; }
+          trap cleanup EXIT
+          ./scripts/prepare-data.sh
+          docker compose up --build --detach --wait
+          test "$(stat -c %u data/receipts/feedback.sqlite3)" = "$FEEDBACK_UID"
+          docker compose exec -T feedback python -m feedback_service.admin \
+            backup /app/data/permission-probe.sqlite3
+          test "$(stat -c %u data/permission-probe.sqlite3)" = "$FEEDBACK_UID"
+          rm data/permission-probe.sqlite3

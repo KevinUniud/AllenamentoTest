@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Esercitazione</title>
+        <meta name="description" content="Esercitazione interattiva di logica proposizionale con domande, timer e revisione finale.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#243b53">
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/formula-transformation.css">
+        <link rel="stylesheet" href="../styles/study-tools.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+    </head>
+    <body>
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+        <script src="../scripts/quiz-images-question.js"></script>
+        <script src="../scripts/quiz-images-correct.js"></script>
+        <script src="../scripts/quiz-images-wrong.js"></script>
+        <script src="../scripts/quiz-shared.js"></script>
+        <script src="../scripts/logger.js"></script>
+        <script src="../scripts/api-client.js"></script>
+        <script src="../scripts/quiz-report.js"></script>
+        <script src="../scripts/quiz-payloads.js"></script>
+        <script src="../scripts/quiz-feedback.js"></script>
+        <script src="../scripts/quiz-state.js"></script>
+        <script src="../scripts/formula-construction.js"></script>
+        <script src="../scripts/formula-transformation.js"></script>
+        <script src="../scripts/formula-transformation-renderer.js"></script>
+        <script src="../scripts/quiz-normalizers.js"></script>
+        <script src="../scripts/quiz-renderer.js"></script>
+        <script src="../scripts/quiz-timer.js"></script>
+        <script src="../scripts/quiz-batch.js"></script>
+        <script src="../scripts/quiz-config.js"></script>
+        <script src="../scripts/quiz-session.js"></script>
+        <script src="../scripts/error-notebook.js"></script>
+        <script src="../scripts/learning-metrics.js"></script>
+        <script src="../scripts/adaptive-engine.js"></script>
+        <script src="../scripts/results-export.js"></script>
+        <script src="../scripts/formula-tree.js"></script>
+        <script src="../scripts/quiz.js"></script>
+        <script src="../scripts/quiz-bootstrap.js"></script>
+        <script src="../scripts/app.js"></script>
+
+        <h1 id="quizTestTitle" hidden>Esercizio nº1</h1>
+        <h1 id="quizReviewTitle" hidden>Revisione Test</h1>
+        <h1 id="quizIntroTitle">Impostazioni</h1>
+
+        <div id="quizTestLayout" class="quiz-test-layout">
+            <div class="rounded-box quiz-box" id="equivalenceQuiz">
+                <div id="quizIntro">
+                    <div id="quizResumePanel" class="quiz-resume-panel" hidden>
+                        <h2>Sessione da riprendere</h2>
+                        <p id="quizResumeSummary"></p>
+                        <div class="quiz-inline-actions">
+                            <button id="quizResumeButton" type="button">Riprendi</button>
+                            <button id="quizDiscardSessionButton" type="button">Elimina sessione</button>
+                        </div>
+                    </div>
+                    <p>
+                        <label>
+                            Modalità:
+                            <select id="quizPreset">
+                                <option value="practice">Pratica guidata</option>
+                                <option value="exam">Simulazione esame</option>
+                                <option value="custom">Personalizzata</option>
+                            </select>
+                        </label>
+                        <input id="quizMode" type="hidden" value="practice">
+                    </p>
+                    <p>
+                        <label>
+                            Difficoltà:
+                            <select id="quizDifficulty">
+                                <option value="easy">Facile</option>
+                                <option value="medium" selected>Media</option>
+                                <option value="hard">Difficile</option>
+                            </select>
+                        </label>
+                    </p>
+                    <p class="quiz-question-total-row">
+                        <span>Numero domande (somma delle tipologie, massimo <span id="quizQuestionMaximum">100</span>):</span>
+                        <output id="quizQuestionCount" class="quiz-question-total" max="100" aria-live="polite">10</output>
+                    </p>
+                    <p>
+                        <label>
+                            Tempo:
+                            <input id="quizTimeMinutes" type="number" min="1" step="1" value="20">
+                            minuti
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="quizShowFormulas" type="checkbox">
+                            Mostra formule
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="quizColorAtoms" type="checkbox">
+                            Colora atomi con valore di verità
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="quizSpokenLanguage" type="checkbox">
+                            Forma parlata
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input id="quizShowWrongActionImages" type="checkbox" disabled>
+                            Mostra immagini
+                        </label>
+                    </p>
+                    <fieldset id="quizQuestionTypes" class="quiz-config-group">
+                        <legend>Tipologie di domanda</legend>
+                        <label><input type="checkbox" data-quiz-question-type value="equivalence" checked> Equivalenze <input type="number" data-quiz-type-count="equivalence" min="0" max="100" value="2" aria-label="Numero domande di equivalenza"></label>
+                        <label><input type="checkbox" data-quiz-question-type value="truth-value" checked> Valore di verità <input type="number" data-quiz-type-count="truth-value" min="0" max="100" value="2" aria-label="Numero domande sul valore di verità"></label>
+                        <label><input type="checkbox" data-quiz-question-type value="logical-consequence" checked> Conseguenza logica <input type="number" data-quiz-type-count="logical-consequence" min="0" max="100" value="2" aria-label="Numero domande di conseguenza logica"></label>
+                        <label><input type="checkbox" data-quiz-question-type value="translation" checked> Traduzione <input type="number" data-quiz-type-count="translation" min="0" max="100" value="2" aria-label="Numero domande di traduzione"></label>
+                        <label><input type="checkbox" data-quiz-question-type value="quantifier-negation" checked> Negazione di quantificatori <input type="number" data-quiz-type-count="quantifier-negation" min="0" max="100" value="2" aria-label="Numero domande sui quantificatori"></label>
+                    </fieldset>
+                    <p>
+                        <label><input id="quizAdaptive" type="checkbox" checked> Adatta gradualmente la difficoltà ai risultati</label>
+                    </p>
+                    <p>
+                        <label><input id="quizShowConstruction" type="checkbox" checked> Mostra come è stata raggiunta la formula dopo la risposta, quando disponibile</label>
+                    </p>
+                    <p id="quizAdaptiveNotice" class="quiz-intro-note" aria-live="polite"></p>
+                    <button id="quizStartButton" class="btn-wide" type="button">Inizia il quiz</button>
+                </div>
+
+                <div id="quizTest" hidden>
+                    <p id="quizQuestion">Quale formula è equivalente a "chiamata"?</p>
+                    <div id="quizInfo" class="quiz-info" hidden></div>
+                    <div id="quizOptions" class="quiz-options" role="radiogroup" aria-labelledby="quizQuestion" aria-describedby="quizStatus"></div>
+                    <button id="quizActionButton" class="btn-wide" type="button" disabled>Controlla la risposta</button>
+                    <p id="quizStatus" class="quiz-status" aria-live="polite"></p>
+                    <div id="quizFormulaTransformation" class="formula-transformation" hidden></div>
+                    <div id="quizWrongActionImages" class="quiz-wrong-images" hidden></div>
+                </div>
+
+                <div id="quizReview" hidden>
+                    <section class="quiz-log-data quiz-feedback-demographics" id="quizLogDataSection" aria-labelledby="quizLogDataLegend" hidden>
+                        <fieldset>
+                            <legend id="quizLogDataLegend">Dati demografici facoltativi</legend>
+                            <p class="quiz-feedback-note">
+                                Puoi lasciare vuoti tutti i campi. Saranno inclusi nella valutazione soltanto quelli che compili e non vengono salvati nella sessione.
+                            </p>
+                            <div class="quiz-feedback-demographics-grid">
+                                <label for="quizLogDataAge">
+                                    Età
+                                    <input id="quizLogDataAge" type="number" min="1" max="199" step="1" inputmode="numeric">
+                                </label>
+                                <label for="quizLogDataInstitution">
+                                    Istituto di appartenenza
+                                    <select id="quizLogDataInstitution">
+                                        <option value="">--- Non specificato ---</option>
+                                        <option value="triennale">Corso di laurea Triennale</option>
+                                        <option value="magistrale">Corso di laurea Magistrale</option>
+                                        <option value="ciclo-unico">Laurea a ciclo unico</option>
+                                        <option value="liceo-scientifico">Liceo scientifico</option>
+                                        <option value="altro-liceo">Altro liceo</option>
+                                        <option value="iti">Istituto tecnico industriale</option>
+                                        <option value="altri-tecnici">Altri istituti tecnici</option>
+                                        <option value="professionale">Istituto professionale</option>
+                                        <option value="altro">Altro</option>
+                                    </select>
+                                </label>
+                                <label id="quizLogDataStemRow" for="quizLogDataStem" hidden>
+                                    Indirizzo
+                                    <select id="quizLogDataStem">
+                                        <option value="">--- Non specificato ---</option>
+                                        <option value="STEM">STEM</option>
+                                        <option value="Non STEM">Non STEM</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </section>
+                    <div id="quizReviewList" class="quiz-review-list"></div>
+                </div>
+            </div>
+
+            <aside id="quizFormulasPane" class="quiz-formulas-pane" hidden>
+                <h2>Formule di riferimento</h2>
+
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>P</th>
+                                <th>Q</th>
+                                <th>P ∧ Q</th>
+                                <th>P ∨ Q</th>
+                                <th>P -> Q</th>
+                                <th>P <-> Q</th>
+                                <th>¬P</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>F</td><td>F</td><td>F</td><td>F</td><td>V</td><td>V</td><td>V</td></tr>
+                            <tr><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td></tr>
+                            <tr><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td><td>F</td><td>V</td></tr>
+                            <tr><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>F</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Equivalenze</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>P -> Q ↔ ¬P ∨ Q</td></tr>
+                            <tr><td>P -> Q ↔ ¬Q -> ¬P</td></tr>
+                            <tr><td>P ∨ Q ↔ ¬P -> Q</td></tr>
+                            <tr><td>P ∧ Q ↔ ¬(P -> ¬Q)</td></tr>
+                            <tr><td>¬(P -> Q) ↔ P ∧ ¬Q</td></tr>
+                            <tr><td>¬∀x P ↔ ∃x ¬P</td></tr>
+                            <tr><td>¬∃x P ↔ ∀x ¬P</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ordine di precedenza</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr> <td> 1º ( ) </td> </tr>
+                            <tr> <td> 2º ¬ </td> </tr>
+                            <tr> <td> 3º ∧, ∨ </td> </tr>
+                            <tr> <td> 4º → </td> </tr>
+                            <tr> <td> 5º ↔ </td> </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Simbolo</th>
+                                <th>Significato</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>-></td><td>Allora / Implica</td></tr>
+                            <tr><td>↔</td><td>Se e solo se</td></tr>
+                            <tr><td>∧</td><td>E</td></tr>
+                            <tr><td>∨</td><td>O</td></tr>
+                            <tr><td>¬</td><td>Non / Negazione</td></tr>
+                            <tr><td>∀</td><td>Per ogni</td></tr>
+                            <tr><td>∃</td><td>Esiste</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </aside>
+        </div>
+
+        <div id="quizReviewNav" class="rounded-box lesson-nav" hidden>
+            <p class="quiz-export-summary">L'esportazione include configurazione e tentativi locali. I dati demografici sono sempre esclusi.</p>
+            <button id="quizReviewRestart" class="lesson-nav-btn" type="button">Ricomincia</button>
+            <button id="quizExportJson" class="lesson-nav-btn" type="button">Esporta JSON</button>
+            <button id="quizExportCsv" class="lesson-nav-btn" type="button">Esporta CSV</button>
+            <button id="quizPrintResults" class="lesson-nav-btn" type="button">Stampa / PDF</button>
+            <a class="lesson-nav-btn" href="../progressi/index.html">Dashboard</a>
+            <a class="lesson-nav-btn" href="../ripasso/errori.html">Quaderno errori</a>
+            <a class="lesson-nav-btn" href="../index.html">Torna all'indice</a>
+        </div>
+
+        <div id="quizIndexNav" class="rounded-box lesson-nav lesson-nav-center">
+            <a class="lesson-nav-btn" href="../index.html">Torna all'indice</a>
+        </div>
+
+    </body>
+</html>

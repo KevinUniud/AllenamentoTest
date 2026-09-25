@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#243b53">
+    <meta name="description" content="Dashboard locale dei progressi negli esercizi di logica.">
+    <title>I miei progressi</title>
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/study-tools.css">
+    <link rel="stylesheet" href="../styles/themes.css">
+</head>
+<body class="progress-page">
+    <script src="../scripts/settings-preferences.js"></script>
+    <script src="../scripts/app-events.js"></script>
+    <script src="../scripts/data-contracts.js"></script>
+    <script src="../scripts/privacy-controls.js"></script>
+    <script src="../scripts/app-storage.js"></script>
+    <script src="../scripts/settings.js?v=3"></script>
+    <script src="../scripts/learning-metrics.js"></script>
+    <script src="../scripts/results-export.js"></script>
+    <script src="../scripts/charts.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+    <script src="../scripts/app.js"></script>
+    <main id="main-content" class="study-page" tabindex="-1">
+        <header class="progress-header">
+            <h1>I miei progressi</h1>
+            <p class="progress-lead">I calcoli avvengono nel browser sui tentativi che hai scelto di salvare localmente.</p>
+        </header>
+        <section class="rounded-box progress-filters no-print" aria-labelledby="dashboardFiltersTitle">
+            <div class="progress-panel-header">
+                <h2 id="dashboardFiltersTitle">Filtra ed esporta</h2>
+                <p>I file includono soltanto i tentativi nel periodo e nei filtri selezionati; i dati demografici sono esclusi.</p>
+            </div>
+            <div class="progress-filter-grid" role="group" aria-label="Filtri dei progressi">
+                <div class="progress-field">
+                    <label for="dashboardPeriod">Periodo</label>
+                    <select id="dashboardPeriod" class="progress-select">
+                    <option value="7">Ultimi 7 giorni</option>
+                    <option value="30" selected>Ultimi 30 giorni</option>
+                    <option value="0">Tutto</option>
+                    </select>
+                </div>
+                <div class="progress-field">
+                    <label for="dashboardType">Argomento</label>
+                    <select id="dashboardType" class="progress-select">
+                    <option value="">Tutti</option>
+                    <option value="equivalence">Equivalenze</option>
+                    <option value="truth-value">Valore di verità</option>
+                    <option value="logical-consequence">Conseguenza logica</option>
+                    <option value="translation">Traduzione</option>
+                    <option value="quantifier-negation">Quantificatori</option>
+                    </select>
+                </div>
+                <div class="progress-field">
+                    <label for="dashboardDifficulty">Difficoltà</label>
+                    <select id="dashboardDifficulty" class="progress-select">
+                    <option value="">Tutte</option>
+                    <option value="easy">Facile</option>
+                    <option value="medium">Media</option>
+                    <option value="hard">Difficile</option>
+                    </select>
+                </div>
+            </div>
+            <div class="progress-actions" role="group" aria-label="Esportazione dei progressi">
+                <button id="dashboardExportJson" class="progress-button" type="button" disabled>Esporta JSON</button>
+                <button id="dashboardExportCsv" class="progress-button" type="button" disabled>Esporta CSV</button>
+                <button id="dashboardDownloadChart" class="progress-button" type="button" disabled>Scarica grafico per tipologia (SVG)</button>
+                <button id="dashboardPrint" class="progress-button" type="button">Stampa / PDF</button>
+            </div>
+        </section>
+        <p id="dashboardEmpty" class="study-empty progress-empty" role="status" aria-live="polite" hidden>Non ci sono ancora tentativi nel periodo selezionato. Abilita il salvataggio locale nelle impostazioni e completa un quiz.</p>
+        <section id="dashboardSummarySection" class="rounded-box progress-section progress-summary-section" aria-labelledby="dashboardSummaryTitle" hidden>
+            <h2 id="dashboardSummaryTitle">Riepilogo</h2>
+            <div id="dashboardSummary" class="metric-grid progress-metrics"></div>
+        </section>
+        <section id="dashboardDifficultySection" class="rounded-box progress-section" aria-labelledby="dashboardDifficultyTitle" hidden>
+            <h2 id="dashboardDifficultyTitle">Risultati per difficoltà</h2>
+            <div id="dashboardDifficultyChart" class="progress-chart"></div>
+            <div class="table" role="region" aria-label="Tabella dei risultati per difficoltà" tabindex="0">
+                <table>
+                    <thead><tr><th scope="col">Difficoltà</th><th scope="col">Tentativi</th><th scope="col">Corrette</th><th scope="col">Precisione</th></tr></thead>
+                    <tbody id="dashboardDifficultyTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+        <section id="dashboardTypeSection" class="rounded-box progress-section" aria-labelledby="dashboardChartTitle" hidden>
+            <h2 id="dashboardChartTitle">Risultati per tipologia</h2>
+            <div id="dashboardChart" class="progress-chart"></div>
+            <div class="table" role="region" aria-label="Tabella dei risultati per tipologia" tabindex="0">
+                <table>
+                    <thead><tr><th scope="col">Tipologia</th><th scope="col">Tentativi</th><th scope="col">Corrette</th><th scope="col">Precisione</th><th scope="col">Tempo mediano</th></tr></thead>
+                    <tbody id="dashboardTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+        <nav class="rounded-box lesson-nav progress-nav" aria-label="Navigazione progressi">
+            <a class="lesson-nav-btn progress-nav-link" href="../ripasso/errori.html">Apri il quaderno degli errori</a>
+            <a class="lesson-nav-btn progress-nav-link" href="../esercizi/esercitazione.html">Nuovo quiz</a>
+            <a class="lesson-nav-btn progress-nav-link" href="../index.html">Indice</a>
+        </nav>
+    </main>
+</body>
+</html>

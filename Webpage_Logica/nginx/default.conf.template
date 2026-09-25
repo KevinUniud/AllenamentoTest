@@ -1,0 +1,133 @@
+# Generated from the exact exported HTML. Map directives belong to http scope.
+include /etc/nginx/csp-map.conf;
+
+map $http_x_forwarded_proto $testlogica_forwarded_proto {
+    default $scheme;
+    http http;
+    https https;
+}
+
+server {
+    listen 80;
+    server_name _;
+    server_tokens off;
+    # Preserve the browser origin and its port behind Docker and TLS proxies.
+    absolute_redirect off;
+    client_max_body_size 256k;
+
+    root /usr/share/nginx/html;
+    index index.html;
+    error_page 404 /404.html;
+
+    include /etc/nginx/security-headers.conf;
+    include /etc/nginx/legacy-routes.conf;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Next fingerprints these assets; ^~ keeps the generic CSS/JS rule below
+    # from replacing their immutable cache policy.
+    location ^~ /_next/static/ {
+        include /etc/nginx/security-headers.conf;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        try_files $uri =404;
+    }
+
+    # Healthcheck del solo container web: non dipende dalla disponibilita
+    # del repository/API, che puo essere distribuito separatamente.
+    location = /web-health {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    # Endpoint di dismissione per browser che hanno ancora la vecchia PWA.
+    # Non registra nuovi worker: il bootstrap corrente lo usa solo per rimuovere
+    # registrazioni/cache ereditate da release precedenti.
+    location = /service-worker.js {
+        # add_header non eredita gli header del server quando questa location
+        # definisce Cache-Control: includerli di nuovo evita risposte JS meno protette.
+        include /etc/nginx/security-headers.conf;
+        default_type application/javascript;
+        expires off;
+        add_header Cache-Control "no-store" always;
+        try_files $uri =404;
+    }
+
+    # CSS e JavaScript non hanno nomi fingerprintati: il browser deve sempre
+    # rivalidarli, altrimenti un nuovo HTML puo essere abbinato ad asset vecchi.
+    location ~* \.(?:css|js)$ {
+        include /etc/nginx/security-headers.conf;
+        expires off;
+        add_header Cache-Control "no-cache" always;
+        try_files $uri =404;
+    }
+
+    location ~* \.(?:png|jpg|jpeg|gif|ico|svg|webp)$ {
+        expires 7d;
+        try_files $uri =404;
+    }
+
+    # Il servizio feedback riceve il report senza trasformazioni. Gli header con
+    # l'indirizzo del browser e il log di accesso sono esclusi per questa route.
+    location = /api/revisione {
+        access_log off;
+        client_max_body_size 2m;
+        proxy_pass ${FEEDBACK_UPSTREAM}/api/revisione;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP "";
+        proxy_set_header X-Forwarded-For "";
+        proxy_set_header X-Forwarded-Proto $testlogica_forwarded_proto;
+        proxy_set_header X-Request-ID $request_id;
+        proxy_set_header Idempotency-Key $http_idempotency_key;
+        proxy_http_version 1.1;
+        proxy_request_buffering off;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 30s;
+        proxy_send_timeout 30s;
+    }
+
+    # Manifest e PNG aggregati provengono dal servizio feedback. Il modificatore
+    # ^~ impedisce alla location regex delle immagini di intercettare questi URL
+    # e tentare erroneamente di leggerli dal filesystem statico del container.
+    location ^~ /api/feedback/charts/ {
+        access_log off;
+        include /etc/nginx/security-headers.conf;
+        # La galleria legge questo valore same-origin e limita comunque il
+        # polling a un intervallo prudente. Nessun endpoint di configurazione
+        # aggiuntivo e esposto dal servizio feedback.
+        add_header X-Feedback-Refresh-Seconds "${FEEDBACK_CHARTS_REFRESH_SECONDS}" always;
+        proxy_pass ${FEEDBACK_UPSTREAM}/api/feedback/charts/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP "";
+        proxy_set_header X-Forwarded-For "";
+        proxy_set_header X-Forwarded-Proto $testlogica_forwarded_proto;
+        proxy_set_header X-Request-ID $request_id;
+        proxy_http_version 1.1;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 30s;
+        proxy_send_timeout 30s;
+    }
+
+    # Le altre route /api appartengono esclusivamente all'API logica.
+    location /api/ {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $testlogica_forwarded_proto;
+        proxy_set_header X-Request-ID $request_id;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout ${API_PROXY_TIMEOUT_SECONDS}s;
+        proxy_send_timeout ${API_PROXY_TIMEOUT_SECONDS}s;
+        proxy_pass ${API_UPSTREAM}/api/;
+    }
+
+    location /health {
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Request-ID $request_id;
+        proxy_pass ${API_UPSTREAM}/health;
+    }
+}

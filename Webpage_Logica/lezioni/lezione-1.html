@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <title>Introduzione</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+    </head>
+    <body data-lesson-id="lesson-1">
+        <script src="../scripts/lesson-checks.js"></script>
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/lesson-progress.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+        <script src="../scripts/lesson-radio.js"></script>
+        <script src="../scripts/app.js"></script>
+
+        <details class="lesson-switcher">
+            <summary class="btn-wide lesson-switcher-symbol" title="Navigazione lezioni">☰</summary>
+            <div class="lesson-switcher-list">
+                <a class="lesson-switcher-link" href="../index.html">Indice</a>
+                <a class="lesson-switcher-link" href="lezione-1.html">Lezione 1</a>
+                <a class="lesson-switcher-link" href="lezione-2.html">Lezione 2</a>
+                <a class="lesson-switcher-link" href="lezione-3.html">Lezione 3</a>
+                <a class="lesson-switcher-link" href="lezione-4.html">Lezione 4</a>
+                <a class="lesson-switcher-link" href="lezione-5.html">Lezione 5</a>
+                <a class="lesson-switcher-link" href="lezione-6.html">Lezione 6</a>
+            </div>
+        </details>
+
+        <h1>Introduzione</h1>
+        <section id="lezione-1">
+            <h2>Lezione 1: Proposizioni e linguaggio</h2>
+
+        <p>
+            P e Q sono le nostre affermazioni: possono essere vere o false. Ci aiuteranno ad astrarci dalla lingua e a concentrarci sul fatto che una frase sia vera o meno.<br>
+            <br>
+            Per rendere la cosa più chiara, si prenda la frase "Anna sorride e Anna corre", possiamo dedurre che Anna stia facendo entrambe le cose contemporaneamente.<br>
+            <br>
+            Si prenda ora "Anna sorride" come la nostra affermazione P e "Anna corre" come la nostra affermazione Q. Deriviamo che se è vero P ed è vero Q, allora la congiunzione di P e Q "Anna sorride e Anna corre" è vera.<br>
+            <br>
+            Per esercizio si provi a riscrivere le frasi sostituendo le parole con quelle tra la lista fornita:<br>
+            
+            <div class="table_inv">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Allora</td> 
+                        <td>e</td> 
+                        <td>o</td>
+                        <td>non</td>
+                        <td>P</td>
+                        <td>Q</td>
+                        <td>N</td>
+                    </tr>
+                </thead>
+            </table>
+            </div>
+        </p>
+
+        <div class="rounded-box"> <!-- Array 1. -->
+        <form id="quiz1_1">
+            <p>
+                1. Se Anna sorride allora non corre <br><br>
+                Anna sorride = P<br>
+                Anna corre = Q
+            </p> <!-- P allora non Q -->
+            <label>
+                <input class="expressionInput" name="expr" type="text" readonly aria-label="Expression builder" placeholder="Clicca i bottoni per costruire l'espressione">
+
+                <div class="controls" aria-hidden="false">
+                    <button type="button" data-val=" allora " class="btn-wide">allora</button>
+                    <button type="button" data-val=" e " class="btn-wide">e</button>
+                    <button type="button" data-val=" o " class="btn-wide">o</button>
+                    <button type="button" data-val=" non " class="btn-wide">non</button>
+                    <button type="button" data-val=" P " class="btn-wide">P</button>
+                    <button type="button" data-val=" Q " class="btn-wide">Q</button>
+                    <button type="button" class="deleteBtn" title="Cancella l'espressione" aria-label="Cancella l'espressione">Cancella</button>
+                </div>
+            </label>
+        </form><br>
+        <button type="button" data-check-index="1">Controlla risposta</button>
+        </div><br>
+
+        <div class="rounded-box"> <!-- Array 2. -->
+        <form id="quiz1_2">
+            <p>
+                2. Se Anna non nuota allora sorride<br><br>
+                Anna nuota = N<br>
+                Anna sorride = P
+            </p> <!-- non N allora P -->
+            <label>
+                <input class="expressionInput" name="expr" type="text" readonly aria-label="Expression builder" placeholder="Clicca i bottoni per costruire l'espressione">
+
+                <div class="controls" aria-hidden="false">
+                    <button type="button" data-val=" allora " class="btn-wide">allora</button>
+                    <button type="button" data-val=" e " class="btn-wide">e</button>
+                    <button type="button" data-val=" o " class="btn-wide">o</button>
+                    <button type="button" data-val=" non " class="btn-wide">non</button>
+                    <button type="button" data-val=" P " class="btn-wide">P</button>
+                    <button type="button" data-val=" N " class="btn-wide">N</button>
+                    <button type="button" class="deleteBtn" title="Cancella l'espressione" aria-label="Cancella l'espressione">Cancella</button>
+                </div>
+            </label>
+        </form><br>
+        <button type="button" data-check-index="2">Controlla risposta</button>
+        </div><br>
+
+        <p>
+            Prendiamo la frase "Se Carlo corre allora Carlo nuota", può sembrare strana nel mondo reale. Se invece la riscriviamo in linguaggio logico, assegnando delle lettere alle varie parti della frase (dove P è Carlo corre e Q è Carlo nuota), si perde questa confusione:
+            <ul>
+                <li>P allora Q</li>
+            </ul>
+            Vediamo così che tramite l'assegnazione delle lettere alle diverse parti della frase originale possiamo astrarci dal significato reale e concentrarci solo sul valore di verità.
+        </p>
+
+        </section>
+
+        <div class="rounded-box lesson-nav">
+            <span class="lesson-nav-btn is-disabled">Precedente</span>
+            <a class="lesson-nav-btn" href="lezione-2.html">Successiva</a>
+        </div>
+
+    </body>
+</html>

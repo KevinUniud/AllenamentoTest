@@ -1,0 +1,11 @@
+# Override opzionale per diagnosi eseguite direttamente dall'host.
+# Non usarlo per pubblicare l'API su un'interfaccia di rete esterna.
+services:
+  testlogica-api:
+    ports:
+      - name: api-loopback
+        target: 5000
+        host_ip: ${API_LOOPBACK_ADDRESS:-127.0.0.1}
+        published: "${API_LOOPBACK_PORT:-5000}"
+        protocol: tcp
+        app_protocol: http

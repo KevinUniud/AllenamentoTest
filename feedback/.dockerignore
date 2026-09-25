@@ -1,0 +1,11 @@
+# The runtime image needs only the package metadata and service source.
+*
+!Dockerfile
+!README.md
+!pyproject.toml
+!feedback_service/
+!feedback_service/**
+!tests/
+!tests/**
+!scripts/
+!scripts/**

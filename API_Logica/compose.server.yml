@@ -1,0 +1,83 @@
+name: ${COMPOSE_PROJECT_NAME:-testlogica-api-server}
+
+services:
+  testlogica-api:
+    image: "${API_IMAGE_REPOSITORY:-testlogica-api}:${RELEASE_TAG:?RELEASE_TAG deve identificare una release immutabile}"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      labels:
+        org.opencontainers.image.title: TestLogica API
+        org.opencontainers.image.version: ${RELEASE_TAG}
+        org.opencontainers.image.revision: ${RELEASE_REVISION:-unknown}
+    restart: unless-stopped
+    init: true
+    command:
+      - uvicorn
+      - server.server:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "5000"
+      - --workers
+      - "${API_WORKERS:-2}"
+      - --limit-concurrency
+      - "${API_CONCURRENCY_LIMIT:-16}"
+      - --backlog
+      - "${API_BACKLOG:-64}"
+      - --timeout-keep-alive
+      - "5"
+    stop_grace_period: ${API_STOP_GRACE_PERIOD:-30s}
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DEFAULT_TIMEOUT: ${DEFAULT_TIMEOUT:-10}
+      MAX_BATCH_SIZE: ${MAX_BATCH_SIZE:-50}
+      CORS_ORIGINS: ${CORS_ORIGINS:?CORS_ORIGINS deve contenere l'origine HTTPS del sito}
+    expose:
+      - "5000"
+    networks:
+      backend:
+        aliases:
+          - api-logica
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/ready', timeout=3).read()",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:size=${API_TMPFS_SIZE:-64m},mode=1777,nosuid,nodev,noexec
+    pids_limit: ${API_PIDS_LIMIT:-128}
+    mem_limit: ${API_MEMORY_LIMIT:-1g}
+    mem_reservation: ${API_MEMORY_RESERVATION:-256m}
+    cpus: ${API_CPUS:-2.0}
+    ulimits:
+      nofile:
+        soft: ${API_NOFILE_SOFT:-1024}
+        hard: ${API_NOFILE_HARD:-4096}
+    logging:
+      driver: json-file
+      options:
+        max-size: ${API_LOG_MAX_SIZE:-10m}
+        max-file: "${API_LOG_MAX_FILES:-5}"
+    labels:
+      org.opencontainers.image.title: TestLogica API
+      org.opencontainers.image.version: ${RELEASE_TAG}
+      org.opencontainers.image.revision: ${RELEASE_REVISION:-unknown}
+      it.testlogica.role: api
+
+networks:
+  backend:
+    name: ${BACKEND_NETWORK_NAME:-testlogica-backend}
+    external: true

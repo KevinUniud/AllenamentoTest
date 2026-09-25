@@ -1,0 +1,161 @@
+/* Errori_comuni: styles adapted from Original.html but using theme variables */
+
+.container{
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Section card similar to Original.html but using theme surfaces */
+.section,
+.rounded-box{
+    background: var(--box-bg);
+    border-radius: 18px;
+    padding: 30px;
+    margin: 30px 0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+h2{
+    margin-top: 0;
+    color: var(--box-title);
+}
+
+.formula{
+    text-align: center;
+    font-size: 1.25rem; /* ~20px */
+    font-weight: 700;
+    margin: 24px 0;
+    color: var(--fg);
+}
+
+.formula-comment{
+    margin-top: 6px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+}
+
+/* Bigger centered arrows used as separators */
+.arrow{
+    text-align: center;
+    font-size: 2.5rem; /* ~40px */
+    color: var(--muted);
+    margin: 8px 0 16px;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.card{
+    background: var(--surface-1);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 5px solid var(--box-border);
+}
+
+.note{
+    margin-top: 20px;
+    padding: 18px;
+    background: var(--surface-2);
+    border-left: 4px solid var(--border-mid);
+    border-radius: 8px;
+}
+
+.equivalence{
+    text-align: center;
+    font-size: 1.125rem; /* ~18px */
+    margin: 20px 0;
+    font-weight: 700;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    text-align: center;
+    background: var(--box-bg);
+}
+
+th, td{
+    border: 1px solid var(--border-mid);
+    padding: 12px;
+    font-size: 1rem; /* 16px base */
+}
+
+th{
+    background: var(--surface-2);
+}
+
+ul{
+    margin: 10px 0;
+}
+
+.highlight{
+    font-weight: 700;
+    color: var(--box-title);
+}
+
+.exists-gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 14px;
+    margin: 14px 0 20px;
+}
+
+.exists-item{
+    margin: 0;
+    padding: 10px;
+    border: 1px solid var(--border-mid);
+    border-radius: 10px;
+    background: var(--surface-1);
+}
+
+.exists-img{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.exists-day{
+    display: none;
+}
+
+html.day-mode .exists-day,
+body.day-mode .exists-day{
+    display: block;
+}
+
+html.day-mode .exists-night,
+body.day-mode .exists-night{
+    display: none;
+}
+.cell-green {
+    color: var(--atom-true);
+    font-weight: 600;
+}
+
+.cell-red {
+    color: var(--atom-false);
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    body.esiste-original {
+        padding: 20px;
+    }
+
+    .esiste-original .section,
+    .esiste-original .rounded-box {
+        padding: 18px;
+    }
+
+    .esiste-original .grid,
+    .esiste-original .exists-gallery {
+        grid-template-columns: 1fr;
+    }
+}

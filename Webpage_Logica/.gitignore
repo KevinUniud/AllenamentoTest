@@ -1,0 +1,29 @@
+# Node.js artefacts
+node_modules/
+coverage/
+.nyc_output/
+npm-debug.log*
+*.log
+
+# Local environment overrides
+.env
+.env.*
+!.env.example
+!.env.server.example
+
+# Generated output
+dist/
+build/
+.next/
+out/
+public/
+.build/
+*.tsbuildinfo
+test-results/
+playwright-report/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

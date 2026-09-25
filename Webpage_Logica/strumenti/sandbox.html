@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#243b53">
+    <meta name="description" content="Laboratorio per costruire e analizzare formule logiche.">
+    <title>Laboratorio di logica</title>
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/formula-construction.css">
+    <link rel="stylesheet" href="../styles/study-tools.css">
+    <link rel="stylesheet" href="../styles/themes.css">
+</head>
+<body class="sandbox-page">
+    <script src="../scripts/settings-preferences.js"></script>
+    <script src="../scripts/app-events.js"></script>
+    <script src="../scripts/data-contracts.js"></script>
+    <script src="../scripts/privacy-controls.js"></script>
+    <script src="../scripts/app-storage.js"></script>
+    <script src="../scripts/settings.js?v=3"></script>
+    <script src="../scripts/api-client.js"></script>
+    <script src="../scripts/formula-syntax.js"></script>
+    <script src="../scripts/formula-construction.js"></script>
+    <script src="../scripts/formula-construction-renderer.js"></script>
+    <script src="../scripts/logic-tree-builder.js"></script>
+    <script src="../scripts/formula-tree.js"></script>
+    <script src="../scripts/logic-sandbox.js"></script>
+    <script src="../scripts/app.js"></script>
+    <main id="main-content" class="study-page" tabindex="-1">
+        <header class="sandbox-header">
+            <h1>Laboratorio di logica</h1>
+            <p class="sandbox-lead">Componi una formula con i simboli logici, osservane la struttura e richiedi l'analisi. Il testo viene validato prima di essere inviato.</p>
+        </header>
+        <section class="rounded-box sandbox-workbench" aria-labelledby="sandboxWorkbenchTitle">
+            <h2 id="sandboxWorkbenchTitle">Componi e analizza</h2>
+            <div class="sandbox-field">
+                <div class="sandbox-label-row">
+                    <label for="sandboxFormula">Formula principale</label>
+                    <span id="sandboxFormulaHint" class="sandbox-hint">Usa ¬ ∧ ∨ → ↔ · massimo 500 caratteri</span>
+                </div>
+                <textarea id="sandboxFormula" class="sandbox-control sandbox-formula-input" rows="4" maxlength="500" spellcheck="false" autocapitalize="none" autocomplete="off" aria-describedby="sandboxFormulaHint"></textarea>
+            </div>
+            <div class="sandbox-field">
+                <p id="sandboxSymbolsLabel" class="sandbox-control-label">Inserisci un operatore</p>
+                <div id="sandboxSymbols" class="sandbox-symbols" role="group" aria-labelledby="sandboxSymbolsLabel">
+                    <button class="sandbox-symbol-button" type="button" data-symbol="∧" aria-label="Inserisci congiunzione">∧</button>
+                    <button class="sandbox-symbol-button" type="button" data-symbol="∨" aria-label="Inserisci disgiunzione">∨</button>
+                    <button class="sandbox-symbol-button" type="button" data-symbol="¬" aria-label="Inserisci negazione">¬</button>
+                    <button class="sandbox-symbol-button" type="button" data-symbol="→" aria-label="Inserisci implicazione">→</button>
+                    <button class="sandbox-symbol-button" type="button" data-symbol="↔" aria-label="Inserisci doppia implicazione">↔</button>
+                </div>
+            </div>
+            <div class="sandbox-field">
+                <label for="sandboxCompareFormula">Seconda formula, per il confronto</label>
+                <textarea id="sandboxCompareFormula" class="sandbox-control sandbox-formula-input" rows="3" maxlength="500" spellcheck="false" autocapitalize="none" autocomplete="off" aria-describedby="sandboxFormulaHint"></textarea>
+            </div>
+            <div class="sandbox-actions" role="group" aria-label="Azioni di analisi">
+                <button class="sandbox-action-button" id="sandboxVariables" type="button">Trova variabili</button>
+                <button class="sandbox-action-button" id="sandboxTruthTable" type="button">Tabella di verità</button>
+                <button class="sandbox-action-button" id="sandboxTautology" type="button">Verifica tautologia</button>
+                <button class="sandbox-action-button" id="sandboxRewrite" type="button">Percorso di riscrittura</button>
+                <button class="sandbox-action-button" id="sandboxCompare" type="button">Confronta formule</button>
+                <button class="sandbox-action-button sandbox-clear-button" id="sandboxClear" type="button">Cancella</button>
+            </div>
+            <p id="sandboxStatus" class="sandbox-status" role="status" aria-live="polite"></p>
+        </section>
+        <section class="sandbox-output-section">
+            <h2>Costruzione passo passo</h2>
+            <div id="sandboxConstruction" class="formula-construction"></div>
+        </section>
+        <section class="sandbox-output-section">
+            <h2>Albero della formula</h2>
+            <div id="sandboxTreeBuilder" class="rounded-box sandbox-tree-builder" aria-labelledby="sandboxTreeBuilderTitle">
+                <h3 id="sandboxTreeBuilderTitle">Costruisci dall'albero</h3>
+                <p class="sandbox-section-help">Aggiungi gli atomi, seleziona le radici nell'ordine desiderato e applica un operatore. Il primo nodo selezionato resta a sinistra, il secondo a destra; la negazione usa un solo nodo.</p>
+                <div class="sandbox-tree-atom-row">
+                    <label for="sandboxTreeAtom">Nome dell'atomo</label>
+                    <div class="sandbox-tree-atom-controls">
+                        <input id="sandboxTreeAtom" class="sandbox-control" type="text" maxlength="40" pattern="[a-z][A-Za-z0-9_]*" spellcheck="false" autocapitalize="none" autocomplete="off">
+                        <button id="sandboxTreeAddAtom" class="sandbox-action-button" type="button">Aggiungi atomo</button>
+                    </div>
+                </div>
+                <fieldset class="sandbox-tree-operator-fieldset">
+                    <legend>Collega le radici selezionate</legend>
+                    <div id="sandboxTreeOperators" class="sandbox-tree-operators">
+                        <button class="sandbox-symbol-button" type="button" data-tree-operator="not" aria-label="Applica negazione">¬</button>
+                        <button class="sandbox-symbol-button" type="button" data-tree-operator="and" aria-label="Applica congiunzione">∧</button>
+                        <button class="sandbox-symbol-button" type="button" data-tree-operator="or" aria-label="Applica disgiunzione">∨</button>
+                        <button class="sandbox-symbol-button" type="button" data-tree-operator="imp" aria-label="Applica implicazione">→</button>
+                        <button class="sandbox-symbol-button" type="button" data-tree-operator="iff" aria-label="Applica doppia implicazione">↔</button>
+                    </div>
+                </fieldset>
+                <button id="sandboxTreeReset" class="sandbox-action-button sandbox-clear-button" type="button">Reimposta albero</button>
+                <p id="sandboxTreeBuilderStatus" class="sandbox-tree-builder-status" role="status" aria-live="polite">L'albero è vuoto. Aggiungi un atomo per iniziare.</p>
+            </div>
+            <p id="sandboxTreeHelp" class="sandbox-section-help">Puoi selezionare una radice disponibile con mouse, Invio o barra spaziatrice. Ogni nodo mostra la formula completa raggiunta in quel punto.</p>
+            <div id="sandboxTree" class="sandbox-tree" aria-describedby="sandboxTreeHelp sandboxTreeDetail"></div>
+            <p id="sandboxTreeDetail" class="sandbox-tree-detail" aria-live="polite"></p>
+        </section>
+        <section class="sandbox-output-section">
+            <h2>Risultato dell'analisi</h2>
+            <div id="sandboxResult" class="rounded-box sandbox-result" tabindex="0" aria-label="Risultato dell'analisi"></div>
+        </section>
+        <nav class="rounded-box lesson-nav" aria-label="Navigazione laboratorio">
+            <a class="lesson-nav-btn" href="../lezioni/lezione-1.html">Ripassa le basi</a>
+            <a class="lesson-nav-btn" href="../index.html">Indice</a>
+        </nav>
+    </main>
+</body>
+</html>

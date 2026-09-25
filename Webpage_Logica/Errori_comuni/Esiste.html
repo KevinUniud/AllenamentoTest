@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Diagramma Logica dei Predicati</title>
+
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+        <link rel="stylesheet" href="../styles/errori.css">
+</head>
+
+<body class="esiste-original">
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+  <script src="../scripts/app.js"></script>
+
+<main id="main-content" tabindex="-1">
+
+<div class="container">
+
+  <h1>Negazione di una Formula Esistenziale: Esiste</h1>
+
+  <div class="rounded-box">
+    <h2>Frase iniziale</h2>
+
+    <div class="formula">
+      "Esiste un gatto che corre e salta"
+    </div>
+
+    <p>Dividiamo la frase in due componenti:</p>
+    <ul>
+      <li>Esiste un gatto, qui stiamo considerando tra uno e tutti i gatti;</li>
+      <li>Quel gatto corre e salta, il gatto corre e saltare contemporaneamente.</li>
+    </ul>
+  
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class ="rounded-box">
+    
+    <h2>Traduzione in forma logica</h2>
+
+    <p>Con i predicati unari P e Q esprimiamo che:</p>
+    <ul>
+      <li>C(x) significa che x corre;</li>
+      <li>S(x) significa che x salta.</li>
+    </ul>
+
+    <p>Esiste si scrive ∃ e consideriamo x il generico gatto</p>
+
+    <div class="formula">
+      ∃x ( C(x) ∧ S(x) )
+    </div>
+
+    <p>
+      Abbiamo così una formula che ci dice come esiste almeno un gatto che 
+      segua questa nostra regola, cioè che corre e salta contemporaneamente.
+    </p>  
+
+    <p>Proviamo ora a negarla.</p>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+    <h2>Negazione della formula</h2>
+
+    <p>
+      Il modo di negare questa affermazione è più complicato rispetto un ∀, 
+      bisogna sostenere che non esista neanche un singolo gatto che salti 
+      e corra contemporaneamente.
+      Ossia: Ogni gatto non (C(x) ∧ S(x)).
+    </p>
+
+    <div class="formula">
+      ∀x ¬( C(x) ∧ S(x) )
+    </div>
+
+    <p>Abbiamo così stabilito che ogni singolo gatto non possa correre e saltare contemporaneamente.</p>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+    <h2>Applicazione della Legge di De Morgan</h2>
+
+    <p>Volendo è possibile rendere leggibile questa formula con un minimo di manipolazione.</p>
+
+    <p>
+      Si ricorda la seguente equivalenza: ¬(P ∧ Q) ≡ ¬P ∨ ¬Q.
+    </p>
+
+    <div class="formula">
+      <u>¬( C(x) ∧ S(x) )</u>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="formula">
+      ¬C(x) ∨ ¬S(x)
+    </div>
+
+    <p>
+      Reinserendo il quantificatore universale:
+    </p>
+
+    <div class="formula">
+      ∀x ( ¬C(x) ∨ ¬S(x) )
+    </div>
+
+    <p>Otteniamo quindi "Per ogni gatto, il gatto o non corre o non salta", questa frase è completamente equivalente alla formula precedente.</p>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+    <h2>Tabella di verità</h2>
+
+    Confermiamo questa nostra affermazione con l'uso della tabella di verità:
+
+    <div class="table">
+    <table tabindex="0" aria-label="Tabella di verità della negazione esistenziale">
+      <thead>
+        <tr>
+          <th>C(x)</th>
+          <th>S(x)</th>
+          <th>¬(C(x) ∧ S(x))</th>
+          <th>¬C(x) ∨ ¬S(x)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>F</td>
+          <td>F</td>
+          <td>T</td>
+          <td>T</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>F</td>
+          <td>T</td>
+          <td>T</td>
+        </tr>
+
+        <tr>
+          <td>F</td>
+          <td>T</td>
+          <td>T</td>
+          <td>T</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>T</td>
+          <td>F</td>
+          <td>F</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Si è visto quindi anche tramite le tabelle di verità che le due formule siano effettivamente equivalenti.</p>
+
+    <div class="note">
+      ¬(C(x) ∧ S(x)) è falso solo quando sia C(x) che S(x) sono vere, questo perché il "¬" inverte il risultato di "∧" che è True solo se entrambi C(x) e S(x) sono True.
+      <br><br>
+      ¬C(x) ∨ ¬S(x) è falso solo quando sia C(x) che S(x) sono vere, questo perché il "¬" inverte il valore di C(x) e S(x) e segue che "∨" è False solo se entrambi C(x) e S(x) sono True.
+    </div>
+
+  </div>
+
+  <div class="rounded-box">
+    <h2>Visualizzazione tramite insiemi</h2>
+    
+    <p>Insiemi validi per "Esiste una persona che corre e salta":</p> <!-- da 1 a 3 -->
+
+    <div class="exists-gallery" aria-label="Insiemi validi">
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Exists1_White.png" alt="Due persone saltano e corrono, due aprono una porta, una salta, una corre" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Exists1_Black.png" alt="Due persone saltano e corrono, due aprono una porta, una salta, una corre" loading="lazy">
+      </figure>
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Exists2_White.png" alt="Tre persone saltano e corrono" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Exists2_Black.png" alt="Tre persone saltano e corrono" loading="lazy">
+      </figure>
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Exists3_White.png" alt="Una persona salta e corre, una apre una porta, due corrono" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Exists3_Black.png" alt="Una persona salta e corre, una apre una porta, due corrono" loading="lazy">
+      </figure>
+    </div>
+
+    <p>Come detto in precedenza, per negare questa affermazione bisogna eliminare ogni persona che non stia correndo e saltando risultando nei seguenti insiemi:</p> <!-- da 4 a 5 -->
+
+    <div class="exists-gallery" aria-label="Insiemi negazione">
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Exists4_White.png" alt="Quattro persone saltano e corrono" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Exists4_Black.png" alt="Quattro persone saltano e corrono" loading="lazy">
+      </figure>
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Exists5_White.png" alt="Una persona salta e corre" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Exists5_Black.png" alt="Una persona salta e corre" loading="lazy">
+      </figure>
+    </div>
+  
+  </div>
+</div>
+
+  <nav class="centered-action" aria-label="Navigazione errori comuni">
+    <a class="btn-wide" href="index.html">Torna a Errori Comuni</a>
+  </nav>
+
+</main>
+
+</body>
+</html>

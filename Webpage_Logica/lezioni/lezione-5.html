@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <title>Introduzione</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+    </head>
+    <body data-lesson-id="lesson-5">
+        <script src="../scripts/lesson-checks.js"></script>
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/lesson-progress.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+        <script src="../scripts/lesson-radio.js"></script>
+        <script src="../scripts/app.js"></script>
+
+        <details class="lesson-switcher">
+            <summary class="btn-wide lesson-switcher-symbol" title="Navigazione lezioni">☰</summary>
+            <div class="lesson-switcher-list">
+                <a class="lesson-switcher-link" href="../index.html">Indice</a>
+                <a class="lesson-switcher-link" href="lezione-1.html">Lezione 1</a>
+                <a class="lesson-switcher-link" href="lezione-2.html">Lezione 2</a>
+                <a class="lesson-switcher-link" href="lezione-3.html">Lezione 3</a>
+                <a class="lesson-switcher-link" href="lezione-4.html">Lezione 4</a>
+                <a class="lesson-switcher-link" href="lezione-5.html">Lezione 5</a>
+                <a class="lesson-switcher-link" href="lezione-6.html">Lezione 6</a>
+            </div>
+        </details>
+
+        <h1>Introduzione</h1>
+        <section id="lezione-5">
+            <h2>Lezione 5: Equivalenze proposizionali</h2>
+
+        <p>
+            Si notano ora cinque equivalenze, in cui i due membri di ognuna sono interscambiabili, poiché producono gli stessi valori di verità per ogni possibile assegnazione delle variabili:<br>
+            
+            <div class="table_inv">
+            <table>
+                <thead>
+                    <tr>
+                        <td>P → Q</td> 
+                        <td> ↔ </td> 
+                        <td>¬P ∨ Q</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>P → Q</td> 
+                        <td> ↔ </td> 
+                        <td>¬Q → ¬P</td>
+                    </tr>
+                    <tr>
+                        <td>P ∨ Q</td> 
+                        <td> ↔ </td> 
+                        <td>¬P → Q</td>
+                    </tr>
+                    <tr>
+                        <td>P ∧ Q</td> 
+                        <td> ↔ </td> 
+                        <td>¬(P → ¬Q)</td>
+                    </tr>
+                    <tr>
+                        <td>¬(P → Q)</td> 
+                        <td> ↔ </td> 
+                        <td>P ∧ ¬Q</td>
+                    </tr>
+                </tbody>
+            </table>           
+            </div>
+            
+            <br>
+            Tramite le tavole di verità, che permettono di individuare le equivalenze tra le formule, e utilizzando le seguenti proprietà, si risolvano le seguenti domande:
+        </p>
+
+        <div class="rounded-box">
+        <form id="quiz5_1"> <!-- True, False -->
+            <p>1) Quale formula è equivalente a P → (Q ∨ V):<br></p>
+            <label>
+                <input type="radio" name="q12" value="F"> P → ¬(Q → ¬V)<br> <!-- F -->
+                <input type="radio" name="q12" value="F"> (P → ¬Q) → V<br> <!-- F -->
+                <input type="radio" name="q12" value="T"> ¬P ∨ Q ∨ V<br> <!-- V -->
+                <input type="radio" name="q12" value="F"> (¬Q → V) → ¬P<br> <!-- F -->
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz5_2"> <!-- True, False -->
+            <p>
+                2) Sapendo che:<br><br>
+                Anna salta = P<br>
+                Anna corre = Q<br><br>
+                "Anna salta e corre" è equivalente a dire che:<br>
+            </p>
+            <label>
+                <input type="radio" name="q13" value="T"> ¬(P → ¬Q)<br> <!-- V -->
+                <input type="radio" name="q13" value="F"> ¬P ∧ ¬Q<br> <!-- F -->
+                <input type="radio" name="q13" value="F"> ¬P ∨ ¬Q<br> <!-- F -->
+                <input type="radio" name="q13" value="F"> ¬P → Q<br> <!-- F -->
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz5_3"> <!-- True, False -->
+            <p>
+                3) Sapendo che:<br><br>
+                Bob suona il flauto = P<br>
+                Bob balla = Q<br><br>
+                "Se Bob suona il flauto allora balla" è equivalente a dire che:<br></p>
+            <label>
+                <input type="radio" name="q14" value="F"> Q → P <br> <!-- F -->
+                <input type="radio" name="q14" value="T"> ¬Q → ¬P <br> <!-- V -->
+                <input type="radio" name="q14" value="F"> ¬P → ¬Q <br> <!-- F -->
+                <input type="radio" name="q14" value="F"> P ∨ ¬Q <br> <!-- F -->
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="important">
+        <p>
+            <b>Importante</b>
+            <br>
+            Si ricorda che come detto nella lezione 2 nel caso in cui P → Q è vera, se non è vera Q non è vera neanche P.<br>
+        </p>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz5_4"> <!-- True, False -->
+            <p>4) "Se Carlo non è felice allora Daniele lo è" equivale a dire:<br></p>
+            <label>
+                <input type="radio" name="q15" value="T"> Carlo è felice o Daniele è felice<br> <!-- V -->
+                <input type="radio" name="q15" value="F"> Carlo è felice e Daniele è felice<br> <!-- F -->
+                <input type="radio" name="q15" value="F"> Se Carlo è felice allora Daniele non è felice<br> <!-- F -->
+                <input type="radio" name="q15" value="F"> Se Daniele è felice allora Carlo non è felice<br> <!-- F -->
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="important">
+        <p>
+            <b>Importante</b>
+            <br>
+            Notate che la “o” logica non è esclusiva come spesso la intendiamo in linguaggio naturale, ma permette la verità di entrambe le proposizioni allo stesso tempo.
+        </p>
+        </div><br>
+
+        <p>
+        Come ultima cosa, nelle equivalenze logiche è possibile considerare anche sottoespressioni più ampie, a condizione che vengano rispettate le parentesi e la precedenza delle operazioni. Ad esempio:
+        <ul>
+        <li>¬(¬A → B) ↔ ¬A ∧ ¬B</li>
+        </ul>
+        In questo caso, l'espressione ¬A viene trattata come la proposizione P nell'equivalenza generale ¬(P → Q) ↔ P ∧ ¬Q.
+        </p>
+
+        </section>
+
+        <div class="rounded-box lesson-nav">
+            <a class="lesson-nav-btn" href="lezione-4.html">Precedente</a>
+            <a class="lesson-nav-btn" href="lezione-6.html">Successiva</a>
+        </div>
+
+    </body>
+</html>

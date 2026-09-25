@@ -1,0 +1,130 @@
+.formula-transformation {
+    margin-top: 14px;
+}
+
+.formula-transformation-toggle {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    background: var(--surface-2);
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.formula-transformation-toggle:focus-visible {
+    outline: 3px solid var(--focus-ring, currentColor);
+    outline-offset: 2px;
+}
+
+.formula-transformation-panel {
+    margin-top: 10px;
+    padding: 12px;
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    background: var(--surface-1);
+}
+
+.formula-transformation-trace + .formula-transformation-trace {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-mid);
+}
+
+.formula-transformation-title {
+    margin: 0 0 10px;
+    font-size: 1rem;
+}
+
+.formula-transformation-rule {
+    margin: 0 0 6px;
+    font-size: 0.98rem;
+}
+
+.formula-transformation-source,
+.formula-transformation-law-row,
+.formula-transformation-application-row,
+.formula-transformation-result,
+.formula-transformation-outcome {
+    margin: 8px 0;
+}
+
+.formula-transformation-label,
+.formula-transformation-explanation,
+.formula-transformation-formula {
+    display: block;
+}
+
+.formula-transformation-label {
+    font-weight: 700;
+}
+
+.formula-transformation-steps {
+    display: grid;
+    gap: 8px;
+    margin: 10px 0;
+    padding-left: 30px;
+}
+
+.formula-transformation-step {
+    padding: 8px 10px;
+    border-left: 3px solid var(--border-mid);
+    background: var(--surface-2);
+}
+
+.formula-transformation-step.is-final {
+    border-left-color: var(--success-text);
+}
+
+.formula-transformation-formula {
+    margin-top: 5px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.formula-transformation-law-row,
+.formula-transformation-application-row,
+.formula-transformation-result {
+    padding-top: 6px;
+    border-top: 1px solid var(--border-mid);
+}
+
+.formula-transformation-application,
+.formula-transformation-result .formula-transformation-formula {
+    font-size: 1.02em;
+}
+
+.formula-transformation-application-row {
+    border-left: 3px solid var(--border-mid);
+    padding-left: 10px;
+}
+
+.formula-transformation-result {
+    font-weight: 700;
+}
+
+.formula-transformation-non-equivalence {
+    margin: 8px 0 0;
+    font-weight: 700;
+    color: var(--error-text, currentColor);
+}
+
+@media (max-width: 600px) {
+    .formula-transformation-panel {
+        padding: 9px;
+    }
+
+    .formula-transformation-steps {
+        padding-left: 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .formula-transformation-toggle,
+    .formula-transformation-panel {
+        scroll-behavior: auto;
+        transition: none;
+    }
+}

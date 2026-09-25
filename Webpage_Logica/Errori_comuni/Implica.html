@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contrapposizione e Inversione Logica</title>
+
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+        <link rel="stylesheet" href="../styles/errori.css">
+</head>
+
+<body class="esiste-original">
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+  <script src="../scripts/app.js"></script>
+
+<main id="main-content" tabindex="-1">
+
+<div class="container">
+
+  <h1>Contrapposizione e Inversione Logica</h1>
+
+  <!-- INTRO -->
+  <div class="rounded-box">
+
+    <h2>Frase iniziale</h2>
+
+    <p>Si prenda la frase "Se Lisa è in Danimarca, allora è in Europa", possiamo in modo equivalente dire "Se Lisa non è in Europa allora non è in Danimarca".</p>
+    
+    <p>Vediamo invece la frase "Se Lisa non è in Danimarca allora non è in Europa", questa frase equivarrebbe a dire "Se Lisa è in Europa allora è in Danimarca" che chiaramente non rispecchia la frase iniziale.</p>
+
+    <p>Vediamo quindi due modi per essere sicuri di questo anche a livello logico matematico, il primo tramite tabella di verità e il secondo tramite deduzione logica.</p>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Tabella di verità</h2>
+
+    <p>Sapendo che:</p>
+    <ul>
+      <li>P = È in Danimarca</li>
+      <li>Q = È in Europa</li>
+    </ul>
+
+    <div class="table">
+      <table tabindex="0" aria-label="Tabella di verità dell’implicazione">
+
+        <thead>
+          <tr>
+            <th>P</th>
+            <th>Q</th>
+            <th>P → Q</th>
+            <th>¬Q → ¬P</th>
+            <th>Q → P</th>
+            <th>¬P → ¬Q</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>F</td>
+            <td>F</td>
+            <td>T</td>
+            <td>T</td>
+            <td>T</td>
+            <td>T</td>
+          </tr>
+
+          <tr>
+            <td>T</td>
+            <td>F</td>
+            <td>F</td>
+            <td>F</td>
+            <td>T</td>
+            <td>T</td>
+          </tr>
+
+          <tr>
+            <td>F</td>
+            <td>T</td>
+            <td>T</td>
+            <td>T</td>
+            <td>F</td>
+            <td>F</td>
+          </tr>
+
+          <tr>
+            <td>T</td>
+            <td>T</td>
+            <td>T</td>
+            <td>T</td>
+            <td>T</td>
+            <td>T</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Applicazione delle Leggi di De Morgan</h2>
+
+    <p>
+      Si ricordano le seguenti equivalenze:
+    </p>
+    <ol>
+      <li>A → B ≡ ¬A ∨ B</li>
+      <li>¬¬A ≡ A</li>
+    </ol>
+
+    <div class="formula">
+      1. P → Q
+    </div>
+
+    <div class="arrow">↓</div>
+    
+    <div class="formula">
+      ¬P ∨ Q
+      <div class="formula-comment">(Scambiamo l'ordine)</div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="formula">
+      2. Q ∨ ¬P
+      <div class="formula-comment">(Vogliamo riapplicare 1. ma per poterlo fare abbiamo bisogno di un ¬ prima di Q)</div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="formula">
+      1. ¬¬Q ∨ ¬P
+      <div class="formula-comment">(¬A ∨ B ≡ A → B con  A = ¬Q, B = ¬P)</div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="formula">
+      ¬Q → ¬P
+    </div>
+
+    <p>
+      Si è quindi raggiunta la nostra equivalenza:
+    </p>
+
+    <div class="formula">
+      P → Q ≡ ¬P ∨ Q ≡ Q ∨ ¬P ≡ ¬(¬(Q)) ∨ ¬(P) ≡ ¬Q → ¬P
+    </div>
+
+    <p>
+      Cioè: P → Q ≡ ¬Q → ¬P.
+    </p>
+
+  </div>
+
+  <!-- CONTRAPOSITION -->
+  <div class="rounded-box">
+
+    <h2>Contrapposizione</h2>
+
+    <p>
+      È una forma di inferenza in cui una proposizione è dedotta da un'altra e dove 
+      la prima ha per soggetto il contraddittorio del predicato della proposizione 
+      logica originale.
+    </p>
+
+    <div class="equivalence">
+      P → Q ≡ ¬Q → ¬P
+    </div>
+
+    <div class="note">
+      Traduzione:
+      <br><br>
+      “Se Lisa non è in Europa,
+      allora non è in Danimarca.”
+    </div>
+
+    <p>
+      Questa frase mantiene esattamente
+      lo stesso significato logico
+      dell'implicazione originale.
+    </p>
+
+  </div>
+
+  <div class="rounded-box">
+
+    <h2>Inversa (non equivalente)</h2>
+
+    <p>
+      L'inversione di un implicazione è il risultato dell'inversione 
+      delle sue affermazioni costituenti.
+    </p>
+
+    <div class="formula">
+      ¬P → ¬Q
+    </div>
+
+    <div class="note">
+      Traduzione:
+      <br><br>
+      “Se Lisa non è in Danimarca,
+      allora non è in Europa.”
+    </div>
+
+    <p>
+      Questa frase NON è equivalente
+      alla frase iniziale,
+      perché Lisa potrebbe essere
+      in un altro paese europeo.
+    </p>
+
+  </div>
+
+  <div class="rounded-box">
+
+    <h2>Se e solo se</h2>
+
+    <div class="formula">
+      “Se non piove,
+      allora la strada non è bagnata”
+    </div>
+
+    <p>
+      Per rendere l'affermazione logicamente equivalente
+      alla sua versione inversa,
+      sarebbe necessario usare
+      una doppia implicazione:
+    </p>
+
+    <div class="formula">
+      P ↔ Q
+    </div>
+
+    <p>E in questo caso la frase originale diventerebbe "La strada è bagnata se e solo se piove"</p>
+
+    <div class="note">
+      Il simbolo ↔ significa
+      “se e solo se”.
+      <br><br>
+      In questo caso entrambe
+      le direzioni dell'implicazione
+      risultano vere.
+    </div>
+
+  </div>
+
+</div>
+
+<nav class="centered-action" aria-label="Navigazione errori comuni">
+  <a class="btn-wide" href="index.html">Torna a Errori Comuni</a>
+</nav>
+
+</main>
+
+</body>
+</html>

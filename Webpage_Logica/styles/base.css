@@ -1,0 +1,305 @@
+/* Design tokens globali: colori semantici, superfici e valori base tema dark. */
+:root{
+    --bg: #222226;
+    --fg: #ffffff;
+    --link: #4ea3ff;
+    --muted: #cccccc;
+    --base-font-size: 16px;
+    --box-bg: #1d1d20;
+    --box-border: #ffffff;
+    --box-title: #53dfdd;
+    --surface-1: rgba(255, 255, 255, 0.02);
+    --surface-2: rgba(255, 255, 255, 0.03);
+    --surface-3: rgba(255, 255, 255, 0.04);
+    --hover-bg: rgba(255, 255, 255, 0.03);
+    --selection-bg: rgba(255, 255, 255, 0.12);
+    --selection-fg: var(--fg);
+    --border-soft: rgba(255, 255, 255, 0.12);
+    --border-mid: rgba(255, 255, 255, 0.14);
+    --border-strong: rgba(255, 255, 255, 0.24);
+    --border-dashed: rgba(255, 255, 255, 0.22);
+    --radio-border: rgba(255, 255, 255, 0.45);
+    --overlay-bg: rgba(0, 0, 0, 0.45);
+    --input-border: #38383b;
+    --important-bg: #233232;
+    --visited-link: #9cc8ff;
+    --list-marker: #666666;
+    --success-border: #a6dcb2;
+    --success-bg: rgba(166, 220, 178, 0.25);
+    --success-text: #a6dcb2;
+    --success-accent-border: rgba(111, 220, 151, 0.55);
+    --success-accent-bg: rgba(72, 161, 104, 0.2);
+    --success-accent-text: #8fe0a9;
+    --error-border: #efb3b3;
+    --error-bg: rgba(239, 179, 179, 0.23);
+    --error-text: #efb3b3;
+    --error-accent-border: rgba(243, 117, 117, 0.55);
+    --error-accent-bg: rgba(170, 72, 72, 0.24);
+    --error-accent-text: #f3aaaa;
+    --warning-border: #e8d98a;
+    --warning-bg: rgba(255, 244, 181, 0.28);
+    --warning-text: #f3e6a3;
+    --info-border: rgba(121, 187, 255, 0.4);
+    --info-bg: rgba(66, 125, 196, 0.16);
+    --info-text: #b8d7ff;
+    --timer-text: #b9b9b9;
+    --selected-dot: #ffffff;
+    --atom-true: #39ff6a;
+    --atom-false: #ff3b3b;
+    --quiz-name-color-0: #7dd3fc;
+    --quiz-name-color-1: #fcb160;
+    --quiz-name-color-2: #86efac;
+    --quiz-name-color-3: #fca5a5;
+}
+
+html.font-size-12 { --base-font-size: 12px; }
+html.font-size-13 { --base-font-size: 13px; }
+html.font-size-14 { --base-font-size: 14px; }
+html.font-size-15 { --base-font-size: 15px; }
+html.font-size-16 { --base-font-size: 16px; }
+html.font-size-17 { --base-font-size: 17px; }
+html.font-size-18 { --base-font-size: 18px; }
+html.font-size-19 { --base-font-size: 19px; }
+html.font-size-20 { --base-font-size: 20px; }
+html.font-size-21 { --base-font-size: 21px; }
+html.font-size-22 { --base-font-size: 22px; }
+html.font-size-23 { --base-font-size: 23px; }
+html.font-size-24 { --base-font-size: 24px; }
+html.font-size-25 { --base-font-size: 25px; }
+html.font-size-26 { --base-font-size: 26px; }
+html.font-size-27 { --base-font-size: 27px; }
+html.font-size-28 { --base-font-size: 28px; }
+
+/* Override tema day mode. */
+html.day-mode,
+body.day-mode {
+    --bg: #ffffff;
+    --fg: #222222;
+    --link: #0060cc;
+    --muted: #555555;
+    --box-bg: #fafafa;
+    --box-border: #ababab;
+    --box-title: #20c7c4;
+    --surface-1: rgba(0, 0, 0, 0.02);
+    --surface-2: rgba(0, 0, 0, 0.03);
+    --surface-3: rgba(0, 0, 0, 0.04);
+    --hover-bg: rgba(0, 0, 0, 0.05);
+    --selection-bg: rgba(0, 0, 0, 0.12);
+    --selection-fg: var(--fg);
+    --border-soft: rgba(0, 0, 0, 0.15);
+    --border-mid: rgba(0, 0, 0, 0.15);
+    --border-strong: rgba(0, 0, 0, 0.24);
+    --border-dashed: rgba(0, 0, 0, 0.2);
+    --radio-border: rgba(0, 0, 0, 0.35);
+    --input-border: rgba(0, 0, 0, 0.24);
+    --important-bg: #e5f8f8;
+    --visited-link: #5e83c0;
+    --list-marker: #666666;
+    --timer-text: #666666;
+    --selected-dot: #222222;
+    --quiz-name-color-0: #0057b8;
+    --quiz-name-color-1: #ca6c1e;
+    --quiz-name-color-2: #0b6e4f;
+    --quiz-name-color-3: #b91c1c;
+}
+
+/* Palette daltonismo: mapping semantico success/error/atom per accessibilita. */
+html.daltonism-protanopia,
+body.daltonism-protanopia {
+    --success-border: #8db7ff;
+    --success-bg: rgba(141, 183, 255, 0.24);
+    --success-text: #9fc3ff;
+    --success-accent-border: rgba(121, 170, 255, 0.65);
+    --success-accent-bg: rgba(74, 118, 204, 0.24);
+    --success-accent-text: #b3ccff;
+    --error-border: #ffd38c;
+    --error-bg: rgba(255, 211, 140, 0.24);
+    --error-text: #ffdca8;
+    --error-accent-border: rgba(255, 190, 94, 0.62);
+    --error-accent-bg: rgba(187, 128, 51, 0.24);
+    --error-accent-text: #ffd8a0;
+    --atom-true: #76b5ff;
+    --atom-false: #ffb65a;
+}
+
+html.daltonism-deuteranopia,
+body.daltonism-deuteranopia {
+    --success-border: #9cc3ff;
+    --success-bg: rgba(156, 195, 255, 0.24);
+    --success-text: #b2d0ff;
+    --success-accent-border: rgba(112, 173, 255, 0.62);
+    --success-accent-bg: rgba(58, 119, 199, 0.24);
+    --success-accent-text: #bad6ff;
+    --error-border: #ffbf86;
+    --error-bg: rgba(255, 191, 134, 0.24);
+    --error-text: #ffd3ae;
+    --error-accent-border: rgba(255, 168, 92, 0.62);
+    --error-accent-bg: rgba(180, 103, 51, 0.25);
+    --error-accent-text: #ffcfa4;
+    --atom-true: #83b8ff;
+    --atom-false: #ffab59;
+}
+
+html.daltonism-tritanopia,
+body.daltonism-tritanopia {
+    --success-border: #7fd9c7;
+    --success-bg: rgba(127, 217, 199, 0.24);
+    --success-text: #9de6d8;
+    --success-accent-border: rgba(94, 205, 184, 0.62);
+    --success-accent-bg: rgba(52, 147, 132, 0.24);
+    --success-accent-text: #a8eadf;
+    --error-border: #e0a5ff;
+    --error-bg: rgba(224, 165, 255, 0.24);
+    --error-text: #eac0ff;
+    --error-accent-border: rgba(207, 135, 250, 0.62);
+    --error-accent-bg: rgba(142, 86, 179, 0.24);
+    --error-accent-text: #e8bbff;
+    --atom-true: #73dbc5;
+    --atom-false: #d39bff;
+}
+
+html.daltonism-achromatopsia,
+body.daltonism-achromatopsia {
+    --success-border: #d9d9d9;
+    --success-bg: rgba(217, 217, 217, 0.2);
+    --success-text: #efefef;
+    --success-accent-border: rgba(223, 223, 223, 0.62);
+    --success-accent-bg: rgba(130, 130, 130, 0.25);
+    --success-accent-text: #f5f5f5;
+    --error-border: #8f8f8f;
+    --error-bg: rgba(143, 143, 143, 0.24);
+    --error-text: #bebebe;
+    --error-accent-border: rgba(160, 160, 160, 0.62);
+    --error-accent-bg: rgba(96, 96, 96, 0.24);
+    --error-accent-text: #cdcdcd;
+    --warning-border: #b8b8b8;
+    --warning-bg: rgba(184, 184, 184, 0.24);
+    --warning-text: #e8e8e8;
+    --info-border: rgba(176, 176, 176, 0.5);
+    --info-bg: rgba(126, 126, 126, 0.2);
+    --info-text: #e2e2e2;
+    --atom-true: #f0f0f0;
+    --atom-false: #9a9a9a;
+}
+
+/* Reset layout globale e tipografia di base. */
+html {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: var(--fg);
+}
+
+body{
+    min-height: 100%;
+    margin: 15px;
+    padding: 4vh 18%;
+    text-align: justify;
+    overflow-wrap: anywhere;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: "JetBrains Mono", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: var(--base-font-size);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+h1{
+    text-align: center;
+}
+
+b,
+strong{
+    display: block;
+    text-align: center;
+    color: var(--box-title);
+    font-size: 1.2rem;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+a{
+    color: var(--link);
+    text-decoration: underline;
+}
+
+a:visited{
+    color: var(--visited-link);
+}
+
+button,
+input,
+textarea,
+select{
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--border-soft);
+    font: inherit;
+    line-height: inherit;
+}
+
+::selection{
+    background: var(--selection-bg);
+    color: var(--selection-fg);
+}
+
+ol li::marker,
+ul li::marker{
+    color: var(--list-marker);
+}
+
+img,
+video{
+    max-width:100%;
+    height:auto;
+    display:block;
+}
+
+/* Utility per testo solo screen-reader. */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus visibile coerente su elementi interattivi. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 3px solid var(--link);
+    outline-offset: 2px;
+}
+
+/* Preferenze utente: riduzione motion. */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Preferenze utente: contrasto elevato. */
+@media (prefers-contrast: more) {
+    :root {
+        --border-soft: rgba(255, 255, 255, 0.38);
+        --border-mid: rgba(255, 255, 255, 0.52);
+        --border-strong: rgba(255, 255, 255, 0.72);
+        --selection-bg: rgba(255, 255, 255, 0.32);
+    }
+
+    html.day-mode,
+    body.day-mode {
+        --border-soft: rgba(0, 0, 0, 0.45);
+        --border-mid: rgba(0, 0, 0, 0.58);
+        --border-strong: rgba(0, 0, 0, 0.8);
+        --selection-bg: rgba(0, 0, 0, 0.32);
+    }
+}

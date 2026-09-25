@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title description">
+    <title id="title">Grafico aggregato non disponibile</title>
+    <desc id="description">Segnaposto neutro privo di dati individuali o aggregati.</desc>
+    <rect width="1200" height="675" rx="28" fill="#f4f4f5"/>
+    <rect x="48" y="48" width="1104" height="579" rx="20" fill="#ffffff" stroke="#71717a" stroke-width="4"/>
+    <g fill="none" stroke="#71717a" stroke-linecap="round" stroke-linejoin="round" stroke-width="16">
+        <path d="M465 350h270"/>
+        <path d="M525 285l-65 65 65 65"/>
+        <path d="M675 285l65 65-65 65"/>
+    </g>
+    <text x="600" y="500" fill="#3f3f46" font-family="Arial, sans-serif" font-size="42" text-anchor="middle">Grafico aggregato non disponibile</text>
+</svg>

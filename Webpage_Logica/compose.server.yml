@@ -1,0 +1,172 @@
+name: ${COMPOSE_PROJECT_NAME:-testlogica-web}
+
+x-feedback-runtime: &feedback-runtime
+  image: "${FEEDBACK_IMAGE_REPOSITORY:-testlogica-feedback}:${RELEASE_TAG:?Impostare RELEASE_TAG in .env.server}"
+  build:
+    context: ../feedback
+    dockerfile: Dockerfile
+    labels:
+      org.opencontainers.image.title: TestLogica Feedback
+      org.opencontainers.image.version: ${RELEASE_TAG}
+      org.opencontainers.image.revision: ${FEEDBACK_RELEASE_REVISION:?Impostare FEEDBACK_RELEASE_REVISION in .env.server}
+  restart: unless-stopped
+  init: true
+  user: "${FEEDBACK_UID:?Impostare FEEDBACK_UID}:${FEEDBACK_GID:?Impostare FEEDBACK_GID}"
+  environment:
+    FEEDBACK_STORAGE_DIR: /app/data/receipts
+    FEEDBACK_CHARTS_DIR: /app/data/charts
+    FEEDBACK_RETENTION_DAYS: ${FEEDBACK_RETENTION_DAYS:-365}
+    FEEDBACK_MAX_BODY_BYTES: ${FEEDBACK_MAX_BODY_BYTES:-2097152}
+    FEEDBACK_MAX_RECEIPTS: ${FEEDBACK_MAX_RECEIPTS:-100000}
+    FEEDBACK_MAX_STORAGE_BYTES: ${FEEDBACK_MAX_STORAGE_BYTES:-1073741824}
+    FEEDBACK_MIN_FREE_BYTES: ${FEEDBACK_MIN_FREE_BYTES:-67108864}
+    FEEDBACK_MIN_AGGREGATE_SESSIONS: ${FEEDBACK_MIN_AGGREGATE_SESSIONS:-10}
+    FEEDBACK_SNAPSHOTS_TO_KEEP: ${FEEDBACK_SNAPSHOTS_TO_KEEP:-3}
+    FEEDBACK_PUBLISH_INTERVAL_SECONDS: ${FEEDBACK_PUBLISH_INTERVAL_SECONDS:-86400}
+    FEEDBACK_RETENTION_INTERVAL_SECONDS: ${FEEDBACK_RETENTION_INTERVAL_SECONDS:-3600}
+    FEEDBACK_WORKER_HEARTBEAT_SECONDS: ${FEEDBACK_WORKER_HEARTBEAT_SECONDS:-15}
+    FEEDBACK_WORKER_STALE_SECONDS: ${FEEDBACK_WORKER_STALE_SECONDS:-60}
+    FEEDBACK_WORKER_JOB_TIMEOUT_SECONDS: ${FEEDBACK_WORKER_JOB_TIMEOUT_SECONDS:-900}
+    FEEDBACK_WORKER_MODE: external
+  networks:
+    - feedback-internal
+  volumes:
+    - type: bind
+      source: ${FEEDBACK_DATA_DIR:?Impostare FEEDBACK_DATA_DIR}
+      target: /app/data
+      bind:
+        create_host_path: false
+        selinux: z
+  read_only: true
+  tmpfs:
+    - /tmp:size=128m,mode=1777,nosuid,nodev,noexec
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  pids_limit: 128
+  # Un job valido puo durare fino a FEEDBACK_WORKER_JOB_TIMEOUT_SECONDS:
+  # Docker deve concedere al worker il tempo di chiudere senza troncare SQLite
+  # o la pubblicazione atomica di uno snapshot.
+  stop_grace_period: ${FEEDBACK_STOP_GRACE_SECONDS:-960}s
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "5"
+  labels:
+    org.opencontainers.image.title: TestLogica Feedback
+    org.opencontainers.image.version: ${RELEASE_TAG}
+    org.opencontainers.image.revision: ${FEEDBACK_RELEASE_REVISION}
+    it.testlogica.role: feedback
+
+services:
+  feedback-worker:
+    <<: *feedback-runtime
+    command: ["python", "-m", "feedback_service.worker"]
+    mem_limit: ${FEEDBACK_WORKER_MEMORY_LIMIT:-1536m}
+    mem_reservation: ${FEEDBACK_WORKER_MEMORY_RESERVATION:-512m}
+    cpus: ${FEEDBACK_WORKER_CPUS:-2.0}
+    healthcheck:
+      test: ["CMD", "python", "-m", "feedback_service.worker", "--check"]
+      interval: 15s
+      timeout: 5s
+      retries: 4
+      start_period: 15s
+
+  feedback:
+    <<: *feedback-runtime
+    mem_limit: ${FEEDBACK_HTTP_MEMORY_LIMIT:-512m}
+    mem_reservation: ${FEEDBACK_HTTP_MEMORY_RESERVATION:-128m}
+    cpus: ${FEEDBACK_HTTP_CPUS:-1.0}
+    depends_on:
+      feedback-worker:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5555/ready', timeout=3).read()",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  webpage-logica:
+    image: "${WEB_IMAGE_REPOSITORY:-testlogica-web}:${RELEASE_TAG:?Impostare RELEASE_TAG in .env.server}"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      labels:
+        org.opencontainers.image.title: TestLogica Web
+        org.opencontainers.image.version: ${RELEASE_TAG}
+        org.opencontainers.image.revision: ${WEB_RELEASE_REVISION:?Impostare WEB_RELEASE_REVISION in .env.server}
+    ports:
+      - "${WEB_BIND_ADDRESS:-127.0.0.1}:${WEB_PORT:-12345}:80"
+    restart: unless-stopped
+    init: true
+    depends_on:
+      feedback:
+        condition: service_healthy
+    environment:
+      API_UPSTREAM: ${API_UPSTREAM:-http://api-logica:5000}
+      API_PROXY_TIMEOUT_SECONDS: ${API_PROXY_TIMEOUT_SECONDS:-125}
+      FEEDBACK_UPSTREAM: http://feedback:5555
+      FEEDBACK_CHARTS_REFRESH_SECONDS: ${FEEDBACK_CHARTS_REFRESH_SECONDS:-300}
+    networks:
+      # Docker non pubblica realmente una porta quando il container appartiene
+      # soltanto a reti `internal`. Questa rete contiene esclusivamente il Web
+      # e fornisce il gateway necessario al binding host su 127.0.0.1.
+      - web-loopback
+      - backend
+      - feedback-internal
+    read_only: true
+    tmpfs:
+      - /etc/nginx/conf.d:size=2m,mode=0755,nosuid,nodev,noexec
+      - /var/cache/nginx:size=64m,mode=1777,nosuid,nodev,noexec
+      - /var/run:size=2m,mode=0755,nosuid,nodev,noexec
+      - /tmp:size=16m,mode=1777,nosuid,nodev,noexec
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - NET_BIND_SERVICE
+      - SETGID
+      - SETUID
+    pids_limit: 64
+    mem_limit: ${WEB_MEMORY_LIMIT:-256m}
+    mem_reservation: ${WEB_MEMORY_RESERVATION:-64m}
+    cpus: ${WEB_CPUS:-0.5}
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/web-health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "5"
+    labels:
+      org.opencontainers.image.title: TestLogica Web
+      org.opencontainers.image.version: ${RELEASE_TAG}
+      org.opencontainers.image.revision: ${WEB_RELEASE_REVISION}
+      it.testlogica.role: web
+
+networks:
+  web-loopback:
+    driver: bridge
+    labels:
+      it.testlogica.role: web-loopback
+  backend:
+    external: true
+    name: ${BACKEND_NETWORK_NAME:?Impostare BACKEND_NETWORK_NAME}
+  feedback-internal:
+    internal: true

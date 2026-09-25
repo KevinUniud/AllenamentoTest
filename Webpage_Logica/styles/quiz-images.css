@@ -1,0 +1,170 @@
+/* Sezione immagini del percorso risolutivo (domanda/corretta/sbagliata). */
+.quiz-wrong-images {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-dashed);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.quiz-wrong-images[hidden],
+.quiz-wrong-images-panel[hidden] {
+    display: none;
+}
+
+.quiz-wrong-images-toggle {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    background: var(--surface-2);
+    color: inherit;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.quiz-wrong-images-toggle:focus-visible {
+    outline: 3px solid var(--focus-ring, currentColor);
+    outline-offset: 2px;
+}
+
+.quiz-wrong-images-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Blocchi file e badge informativi. */
+.quiz-wrong-images-file {
+    border: 1px solid var(--border-mid);
+    border-radius: 8px;
+    padding: 10px;
+    background: var(--surface-2);
+}
+
+.quiz-wrong-images-file-title {
+    margin: 0 0 10px;
+    font-size: 0.95em;
+    color: var(--muted);
+}
+
+.quiz-wrong-images-badge {
+    margin: 0 0 8px;
+    display: block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--info-border);
+    background: var(--info-bg);
+    color: var(--info-text);
+    font-size: 0.8em;
+    white-space: pre-line;
+    line-height: 1.35;
+}
+
+/* Riga di elementi visuali (immagini, connettivi, parentesi). */
+.quiz-wrong-images-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.quiz-wrong-images-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.quiz-wrong-images-img {
+    width: 112.5px;
+    height: 112.5px;
+    object-fit: contain;
+}
+
+.quiz-wrong-images-caption {
+    font-size: 0.82em;
+    color: var(--muted);
+    text-align: center;
+}
+
+.quiz-wrong-images-caption-subject,
+.quiz-wrong-images-caption-action {
+    color: inherit;
+}
+
+.quiz-name-color-0 { color: var(--quiz-name-color-0); }
+.quiz-name-color-1 { color: var(--quiz-name-color-1); }
+.quiz-name-color-2 { color: var(--quiz-name-color-2); }
+.quiz-name-color-3 { color: var(--quiz-name-color-3); }
+
+/* Evidenziazione differenze step: cambiamento o errore. */
+.quiz-wrong-images-item.is-step-changed {
+    border: 1px solid var(--success-accent-border);
+    border-radius: 8px;
+    background: var(--success-accent-bg);
+    padding: 4px;
+}
+
+.quiz-wrong-images-item.is-step-error {
+    border: 1px solid var(--error-accent-border);
+    border-radius: 8px;
+    background: var(--error-accent-bg);
+    padding: 4px;
+}
+
+/* Connettivi e parentesi nel formato visuale. */
+.quiz-wrong-images-connector {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    font-size: 0.78em;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+}
+
+.quiz-wrong-images-connector.is-step-changed,
+.quiz-wrong-images-parenthesis.is-step-changed {
+    border-color: var(--success-accent-border);
+    background: var(--success-accent-bg);
+    color: var(--success-accent-text);
+}
+
+.quiz-wrong-images-connector.is-step-error,
+.quiz-wrong-images-parenthesis.is-step-error {
+    border-color: var(--error-accent-border);
+    background: var(--error-accent-bg);
+    color: var(--error-accent-text);
+}
+
+.quiz-wrong-images-parenthesis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 112.5px;
+    font-size: 82px;
+    line-height: 1;
+    color: var(--muted);
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid transparent;
+}
+
+/* Fallback e legenda finale. */
+.quiz-wrong-images-empty {
+    font-size: 0.9em;
+    color: var(--muted);
+}
+
+.quiz-wrong-images-legend {
+    margin: 8px 0 0;
+    font-size: 0.82em;
+    color: var(--muted);
+}

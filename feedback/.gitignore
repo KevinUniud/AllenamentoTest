@@ -1,0 +1,38 @@
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# Python environments, caches and build output
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Private receipts and generated artifacts. Keep only the mount-point marker.
+data/*
+data/.testlogica-feedback-data/
+!data/.gitkeep
+dump/
+old_dump/
+report/
+grafici/
+
+# Local legacy material preserved in this worktree, never publish by accident
+Risultati.txt
+radar_competenze.png
+report_feedback.txt
+
+# Local tools and editors
+.idea/
+.vscode/
+*.swp
+.DS_Store

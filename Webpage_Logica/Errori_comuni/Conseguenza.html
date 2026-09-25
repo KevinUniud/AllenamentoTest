@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conseguenza Logica</title>
+
+  <link rel="stylesheet" href="../styles/base.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/quiz.css">
+  <link rel="stylesheet" href="../styles/themes.css">
+  <link rel="stylesheet" href="../styles/errori.css">
+</head>
+
+<body class="esiste-original">
+
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+<script src="../scripts/app.js"></script>
+
+<main id="main-content" tabindex="-1">
+
+<div class="container">
+
+  <h1>Conseguenza Logica</h1>
+
+  <div class="rounded-box">
+
+    <h2>Domanda</h2>
+		
+		<p>
+      Quale formula è conseguenza logica di: ¬P ∧ (R ∨ Q)
+		</p>
+    <ul>
+      <li>Q ↔ (R ∨ P)</li>
+      <li>R → P</li>
+      <li>P ∨ R</li>
+      <li>¬P</li>
+    </ul>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Significato della domanda</h2>
+
+    <p>
+      La domanda sta chiedendo:
+    </p>
+
+    <div class="formula">
+      “Quale formula è vera in tutte le interpretazioni
+      in cui ¬P ∧ (R ∨ Q) è vera?”
+    </div>
+
+    <div class="note">
+      Un modello di una teoria formale è un'interpretazione
+      che rende veri tutti gli enunciati della teoria.
+    </div>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Osservazione immediata</h2>
+
+		<p>
+			Per rispondere a questa domanda ci sono metodi più o meno semplici, 
+			uno per esempio sarebbe notare come in questo caso la formula ¬P ∧ (R ∨ Q) 
+			può essere vera soltanto se ¬P è vera.
+      Quindi ogni interpretazione che soddisfa la formula rende necessariamente 
+			vera anche ¬P.
+    </p>
+
+    <div class="equivalence">
+      ¬P ∧ (R ∨ Q) ⊨ ¬P
+    </div>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Verifica con tabella di verità</h2>
+
+		<p>
+			Un metodo più intuitivo invece è usare una tabella di verità e 
+			controllare quale risposta ha T quando anche la formula originale ha T.
+		</p>
+
+    <table class="truth-table" tabindex="0" aria-label="Tabella di verità della conseguenza logica">
+
+      <thead>
+        <tr>
+          <th>P</th>
+          <th>Q</th>
+          <th>R</th>
+          <th>¬P</th>
+          <th>R ∨ Q</th>
+          <th>¬P ∧ (R ∨ Q)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>F</td>
+          <td>F</td>
+          <td>F</td>
+          <td>T</td>
+          <td>F</td>
+          <td>F</td>
+        </tr>
+
+        <tr>
+          <td>F</td>
+          <td>F</td>
+          <td>T</td>
+          <td class="cell-green">T</td>
+          <td>T</td>
+          <td class="cell-green">T</td>
+        </tr>
+
+        <tr>
+          <td>F</td>
+          <td>T</td>
+          <td>F</td>
+          <td class="cell-green">T</td>
+          <td>T</td>
+          <td class="cell-green">T</td>
+        </tr>
+
+        <tr>
+          <td>F</td>
+          <td>T</td>
+          <td>T</td>
+          <td class="cell-green">T</td>
+          <td>T</td>
+          <td class="cell-green">T</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>F</td>
+          <td>F</td>
+          <td>F</td>
+          <td>F</td>
+          <td>F</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>F</td>
+          <td>T</td>
+          <td>F</td>
+          <td>T</td>
+          <td>F</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>T</td>
+          <td>F</td>
+          <td>F</td>
+          <td>T</td>
+          <td>F</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>T</td>
+          <td>T</td>
+          <td>F</td>
+          <td>T</td>
+          <td>F</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+    <p>
+      Le righe evidenziate sono esattamente quelle in cui
+      la formula iniziale è vera.
+      In tutte queste righe anche ¬P è vera.
+    </p>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Conclusione</h2>
+
+    <div class="equivalence">
+      ¬P è la conseguenza logica corretta.
+    </div>
+
+    <p>
+      Ci possiamo in questo caso fermare dato che abbiamo trovato la 
+			formula che è conseguenza logica che soddisfa ¬P ∧ (R ∨ Q).
+    </p>
+
+  </div>
+
+</div>
+
+<nav class="centered-action" aria-label="Navigazione errori comuni">
+  <a class="btn-wide" href="index.html">Torna a Errori Comuni</a>
+</nav>
+
+</main>
+
+</body>
+</html>
