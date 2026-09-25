@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#243b53">
+    <meta name="description" content="Quaderno locale degli errori di logica, con filtri e ripasso.">
+    <title>Quaderno degli errori</title>
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/quiz.css">
+    <link rel="stylesheet" href="../styles/formula-transformation.css">
+    <link rel="stylesheet" href="../styles/study-tools.css">
+    <link rel="stylesheet" href="../styles/themes.css">
+</head>
+<body>
+    <script src="../scripts/settings-preferences.js"></script>
+    <script src="../scripts/app-events.js"></script>
+    <script src="../scripts/data-contracts.js"></script>
+    <script src="../scripts/privacy-controls.js"></script>
+    <script src="../scripts/app-storage.js"></script>
+    <script src="../scripts/settings.js?v=3"></script>
+    <script src="../scripts/formula-transformation.js"></script>
+    <script src="../scripts/formula-transformation-renderer.js"></script>
+    <script src="../scripts/error-notebook.js"></script>
+    <script src="../scripts/error-notebook-page.js"></script>
+    <script src="../scripts/app.js"></script>
+    <main id="main-content" class="study-page" tabindex="-1">
+        <h1>Quaderno degli errori</h1>
+        <p>Qui ritrovi gli errori salvati nel browser. Le domande uguali vengono raggruppate e puoi seguirne il ripasso.</p>
+        <div class="study-toolbar rounded-box" role="group" aria-label="Filtri del quaderno degli errori">
+            <label>Argomento
+                <select id="errorTypeFilter">
+                    <option value="">Tutti</option>
+                    <option value="equivalence">Equivalenze</option>
+                    <option value="truth-value">Valore di verita</option>
+                    <option value="logical-consequence">Conseguenza logica</option>
+                    <option value="translation">Traduzione</option>
+                    <option value="quantifier-negation">Quantificatori</option>
+                </select>
+            </label>
+            <label>Stato
+                <select id="errorStateFilter">
+                    <option value="">Tutti</option>
+                    <option value="review">Da rivedere</option>
+                    <option value="learning">In apprendimento</option>
+                    <option value="mastered">Consolidato</option>
+                </select>
+            </label>
+            <label>Ordine
+                <select id="errorOrderFilter">
+                    <option value="recent">Piu recenti</option>
+                    <option value="count">Piu frequenti</option>
+                </select>
+            </label>
+            <label>Periodo
+                <select id="errorPeriodFilter">
+                    <option value="7">Ultimi 7 giorni</option>
+                    <option value="30" selected>Ultimi 30 giorni</option>
+                    <option value="0">Tutto</option>
+                </select>
+            </label>
+            <button id="clearErrorNotebook" type="button">Elimina tutti gli errori</button>
+        </div>
+        <p id="errorNotebookEmpty" class="study-empty">Il quaderno è vuoto. Abilita il salvataggio locale e completa un quiz: le risposte errate compariranno qui.</p>
+        <div id="errorNotebookList" class="study-grid"></div>
+        <nav class="rounded-box lesson-nav" aria-label="Navigazione quaderno degli errori">
+            <a class="lesson-nav-btn" href="../esercizi/esercitazione.html">Nuovo quiz</a>
+            <a class="lesson-nav-btn" href="../progressi/index.html">Dashboard</a>
+            <a class="lesson-nav-btn" href="../index.html">Indice</a>
+        </nav>
+    </main>
+</body>
+</html>

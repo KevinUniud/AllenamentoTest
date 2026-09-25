@@ -9,7 +9,8 @@ const WORKER_SOURCE = fs.readFileSync(path.join(WEB_ROOT, 'service-worker.js'), 
 
 function walkFiles(directory) {
     return fs.readdirSync(directory, { withFileTypes: true }).flatMap(function(entry) {
-        if (entry.isDirectory() && ['.git', 'node_modules', '.next', 'out', 'public', '.build', 'test-results', 'playwright-report'].includes(entry.name)) return [];
+        // Legacy snapshots retain their original relative paths, outside public assets.
+        if (entry.isDirectory() && ['.git', 'node_modules', '.next', 'out', 'public', '.build', 'test-results', 'playwright-report', 'old_pages'].includes(entry.name)) return [];
         const target = path.join(directory, entry.name);
         return entry.isDirectory() ? walkFiles(target) : [target];
     });

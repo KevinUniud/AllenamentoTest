@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagramma Negazione Formula Logica</title>
+
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+        <link rel="stylesheet" href="../styles/errori.css">
+
+</head>
+
+<body class="esiste-original">
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+  <script src="../scripts/app.js"></script>
+
+<main id="main-content" tabindex="-1">
+
+<div class="container">
+
+  <h1>Negazione di una Formula Esistenziale: Per Ogni</h1>
+
+  <div class="rounded-box">
+    <h2>Frase iniziale</h2>
+
+    <div class="formula">
+      "Ogni cane che corre salta"
+    </div>
+
+    <p>Dividiamo la frase in due componenti:</p>
+    <ul>
+      <li>Ogni cane, qui stiamo considerando l'insieme di <span class="highlight">tutti</span> i cani;</li>
+      <li>Quei cani che corrono saltano, se un cane corre allora deve saltare.</li>
+    </ul>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class ="rounded-box">
+    
+    <h2>Traduzione in forma logica</h2>
+
+    <p>Con i predicati unari P e Q esprimiamo che:</p>
+    <ul>
+      <li>C(x) significa che x corre;</li>
+      <li>S(x) significa che x salta.</li>
+    </ul>
+
+    <p>Per ogni si scrive ∀ e consideriamo x il generico cane</p>
+
+    <div class="formula">
+      ∀x ( C(x) → S(x) )
+    </div>
+
+    <p>
+      Abbiamo così una formula che ci dice come ogni singolo cane esistente 
+      segua questa nostra regola, cioè che se corre allora salterà.
+    </p>  
+
+    <p>Questa frase non è sembra rispecchiare la realtà, proviamo 
+      quindi a negarla.</p>
+
+  </div>
+
+    <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Negazione della Formula</h2>
+
+    <p>
+      Il modo di negare questa affermazione, cioè dire che non è vero che 
+      tutti i cani che corrono abbaiano, è abbastanza semplice, basta trovare 
+      un singolo cane che non segua questa regola.
+      Ossia: Esiste un cane che non C(x) → S(x).
+    </p>
+
+    <div class="formula">
+      ∃x ¬( C(x) → S(x) )
+    </div>
+
+    <p>
+      Ecco qui la nostra prova che esiste almeno un cane che non rispetti la regola stabilita in precedenza.
+      Abbiamo quindi trovato la negazione della formula precedente.
+    </p>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+
+    <h2>Applicazione delle Leggi di De Morgan</h2>
+
+    <p>
+      Purtroppo il linguaggio logico matematico non è facilmente traducibile in italiano, 
+      in questo specifico caso il problema sono la negazione e le parentesi, 
+      semplifichiamo quindi la formula in un formato più semplice da tradurre.
+    </p>
+
+    <p>
+      Si ricordano le seguenti equivalenze:
+    </p>
+    <ol>
+      <li>P → Q ≡ ¬P ∨ Q</li>
+      <li>¬(P ∨ Q) ≡ ¬P ∧ ¬Q</li>
+      <li>¬¬P ≡ P</li>
+    </ol>
+
+    <div class="formula">
+      1. ¬( <u>C(x) → S(x)</u> )
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="formula">
+      2. <u>¬( ¬C(x) ∨ S(x) )</u>
+      <div class="formula-comment">(Qui ¬C(x) è il nostro P)</div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="formula">
+      3. <u>¬¬C(x)</u> ∧ ¬S(x)
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="formula">
+      C(x) ∧ ¬S(x)
+    </div>
+
+    <p>
+      Reinserendo il quantificatore universale:
+    </p>
+    
+    <div class="formula">
+      ∃x  ( C(x) ∧ ¬S(x) )
+    </div>
+
+    <p>Otteniamo quindi "Esiste un cane che corre e non salta", questa frase è completamente equivalente alla formula precedente.</p>
+
+    <div class="note">
+      Si nota come stiamo dicendo più nello specifico che esiste <span class="highlight">almeno</span> un cane, niente vieta che ce ne siano di più o anche che tutti che corrono non saltano.
+    </div>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="rounded-box">
+    <h2>Tabella di verità</h2>
+
+    Confermiamo questa nostra affermazione con l'uso della tabella di verità:
+
+    <div class="table">
+    <table tabindex="0" aria-label="Tabella di verità della negazione universale">
+      <thead>
+        <tr>
+          <th>C(x)</th>
+          <th>S(x)</th>
+          <th>¬(C(x) → S(x))</th>
+          <th>C(x) ∧ ¬S(x)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>F</td>
+          <td>F</td>
+          <td>F</td>
+          <td>F</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>F</td>
+          <td>T</td>
+          <td>T</td>
+        </tr>
+
+        <tr>
+          <td>F</td>
+          <td>T</td>
+          <td>F</td>
+          <td>F</td>
+        </tr>
+
+        <tr>
+          <td>T</td>
+          <td>T</td>
+          <td>F</td>
+          <td>F</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>Si è visto quindi anche tramite le tabelle di verità che le due formule siano effettivamente equivalenti.</p>
+
+    <div class="note">
+      C(x) → S(x) è falso solo quando da True voglio implicare False, ne segue che la sua negazione ¬(C(x) → S(x)) sia vera solo nel caso opposto.
+      <br><br>
+      C(x) ∧ ¬S(x) è vero solo nel caso in cui C(x) sia True e S(x) sia False, questo a causa del "¬" che inverte il valore di S(x).
+    </div>
+
+  </div>
+
+    <div class="rounded-box">
+    <h2>Visualizzazione tramite insiemi</h2>
+
+    <p>Insiemi validi per "Ogni persona che corre salta":</p>
+
+    <div class="exists-gallery" aria-label="Insiemi validi">
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Forall1_White.png" alt="Quattro persone saltano e corre" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Forall1_Black.png" alt="Quattro persone saltano e corre" loading="lazy">
+      </figure>
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Forall2_White.png" alt="Una persona salta e corre" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Forall2_Black.png" alt="Una persona salta e corre" loading="lazy">
+      </figure>
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Forall3_White.png" alt="Nessuna persona" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Forall3_Black.png" alt="Nessuna persona" loading="lazy">
+      </figure>
+      </div>
+
+      <p>Come detto in precedenza, per negare questa affermazione basta che ci sia almeno una persona che non stia correndo e saltando</p>
+
+    <div class="exists-gallery" aria-label="Insiemi negazione">
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Forall4_White.png" alt="Due persone saltano e corrono, due aprono una porta, una salta, una corre" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Forall4_Black.png" alt="Due persone saltano e corrono, due aprono una porta, una salta, una corre" loading="lazy">
+      </figure>
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Forall5_White.png" alt="Una persona salta e corre, una corre" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Forall5_Black.png" alt="Una persona salta e corre, una corre" loading="lazy">
+      </figure>
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Forall6_White.png" alt="Una persona apre una porta" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Forall6_Black.png" alt="Una persona apre una porta" loading="lazy">
+      </figure>
+    </div>
+
+  </div>
+
+</div>
+
+  <nav class="centered-action" aria-label="Navigazione errori comuni">
+    <a class="btn-wide" href="index.html">Torna a Errori Comuni</a>
+  </nav>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <title>Introduzione</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+    </head>
+    <body data-lesson-id="lesson-3">
+        <script src="../scripts/lesson-checks.js"></script>
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/lesson-progress.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+        <script src="../scripts/lesson-radio.js"></script>
+        <script src="../scripts/app.js"></script>
+
+        <details class="lesson-switcher">
+            <summary class="btn-wide lesson-switcher-symbol" title="Navigazione lezioni">☰</summary>
+            <div class="lesson-switcher-list">
+                <a class="lesson-switcher-link" href="../index.html">Indice</a>
+                <a class="lesson-switcher-link" href="lezione-1.html">Lezione 1</a>
+                <a class="lesson-switcher-link" href="lezione-2.html">Lezione 2</a>
+                <a class="lesson-switcher-link" href="lezione-3.html">Lezione 3</a>
+                <a class="lesson-switcher-link" href="lezione-4.html">Lezione 4</a>
+                <a class="lesson-switcher-link" href="lezione-5.html">Lezione 5</a>
+                <a class="lesson-switcher-link" href="lezione-6.html">Lezione 6</a>
+            </div>
+        </details>
+
+        <h1>Introduzione</h1>
+        <section id="lezione-3">
+            <h2>Lezione 3: Tabelle di verità e deduzioni</h2>
+
+        <p>
+            Una tabella di verità è utile a capire il valore di verità di una frase attraverso tutte le possibili combinazioni di vero e falso delle proposizioni che la compongono.<br><br>
+
+            Vediamone ora una:<br>
+        </p>
+
+        <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>P</th>
+                    <th>Q</th>
+                    <th>P ∧ Q</th>
+                    <th>P ∨ Q</th>
+                    <th>P → Q</th>
+                    <th>¬P</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>F</td>
+                    <td>F</td>
+                    <td>F</td>
+                    <td>F</td>
+                    <td>V</td>
+                    <td>V</td>
+                    </tr>
+                <tr>
+                    <td>V</td>
+                    <td>F</td>
+                    <td>F</td>
+                    <td>V</td>
+                    <td>F</td>
+                    <td>F</td>
+                </tr>
+                <tr>
+                    <td>F</td>
+                    <td>V</td>
+                    <td>F</td>
+                    <td>V</td>
+                    <td>V</td>
+                    <td>V</td>
+                </tr>
+                <tr>
+                    <td>V</td>
+                    <td>V</td>
+                    <td>V</td>
+                    <td>V</td>
+                    <td>V</td>
+                    <td>F</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <p>
+            <ul>
+                <li>L'unico caso in cui P ∧ Q è vero è se P e Q sono entrambi veri</li>
+                <li>L'unico caso in cui P ∨ Q è falso è se P e Q sono entrambi falsi</li>
+                <li>L'unico caso in cui P → Q è falso è se P è vera e Q è falsa</li>
+                <li>Il ¬ inverte il valore di verità</li>
+            </ul>
+            Se assegniamo un valore di verità agli atomi possiamo iniziare a fare delle deduzioni, in particolare a seconda dei simboli possiamo sapere se una certa affermazione sia vera o falsa, come prima per Anna e Bob.<br>
+            <br>
+            Si introduce il seguente ordine di precedenza degli operatori:
+            <ol>
+                <li>()</li>
+                <li>¬</li>
+                <li>∧, ∨</li>
+                <li>→</li>
+            </ol>
+            Questo ordine consente di ridurre l'uso delle parentesi nelle formule. Ad esempio, l'espressione ((¬(P) ∧ Q) ∧ R) può essere scritta come ¬P ∧ Q ∧ R mantenendo invariato il significato.<br><br>
+
+            Rimangono tuttavia casi ambigui. Si prenda l'espressione P ∧ Q ∨ R, può venire interpretata sia come (P ∧ Q) ∨ R che come P ∧ (Q ∨ R). Rimangono quindi dei casi in cui è necessario utilizzare esplicitamente le parentesi per evitare ambiguità.<br><br>
+
+            Grazie all'ordine di precedenza introdotto, è possibile semplificare espressioni come P ∧ Q → R garantendo la corretta interpretazione come (P ∧ Q) → R anche senza in assenza di parentesi.<br><br>
+
+            Si risolvano gli esercizi tramite la tabella di verità: 
+        </p>
+
+        <div class="rounded-box"> <!-- True, False -->
+        <form id="quiz3_1_1">
+            <p>
+                1. Sapendo che P e Q sono falsi deduci:<br><br>
+                P ∧ Q <!-- F -->
+            </p>
+            <label>
+                <input type="radio" name="q1" value="F"> Vero<br>
+                <input type="radio" name="q1" value="T"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+
+        <form id="quiz3_1_2"> <!-- True, False -->
+            <p>P ∧ Q → Q</p> <!-- F -->
+            <label>
+                <input type="radio" name="q2" value="F"> Vero<br>
+                <input type="radio" name="q2" value="T"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz3_2_1"> <!-- True, False -->
+            <p>
+                2. Sapendo che P è vero mentre Q è falso deduci:<br><br>
+                P → Q <!-- F -->
+            </p>
+            <label>
+                <input type="radio" name="q3" value="F"> Vero<br>
+                <input type="radio" name="q3" value="T"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+
+        <form id="quiz3_2_2"> <!-- True, False -->
+            <p>Q → P</p> <!-- V -->
+            <label>
+                <input type="radio" name="q4" value="T"> Vero<br>
+                <input type="radio" name="q4" value="F"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+
+        <form id="quiz3_2_3"> <!-- True, False -->
+            <p>(P → Q) ∧ (Q → P)</p> <!-- F -->
+            <label>
+                <input type="radio" name="q5" value="F"> Vero<br>
+                <input type="radio" name="q5" value="T"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz3_3_1"> <!-- True, False -->
+            <p>
+                3. Sapendo che P e Q sono entrambi veri mentre N è falso deduci:<br><br>
+                Q ∧ N <!-- F -->
+            </p>
+            <label>
+                <input type="radio" name="q6" value="F"> Vero<br>
+                <input type="radio" name="q6" value="T"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+
+        <form id="quiz3_3_2"> <!-- True, False -->
+            <p>P ∨ (Q ∧ N)</p> <!-- V -->
+            <label>
+                <input type="radio" name="q7" value="T"> Vero<br>
+                <input type="radio" name="q7" value="F"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz3_4_1"> <!-- True, False -->
+            <p>
+                4. Sapendo che P è vero mentre Q e N sono entrambi falsi deduci:<br><br>
+                P → ¬((Q ∧ N) → N) <!-- F -->
+            </p>
+            <label>
+                <input type="radio" name="q8" value="F"> Vero<br>
+                <input type="radio" name="q8" value="T"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <p>
+            Si considerino ora le seguenti frasi in italiano e si indichi se le corrispettive formule logiche siano Vere o False:
+        </p>
+
+        <div class="rounded-box">
+        <form id="quiz4_1"> <!-- True, False -->
+            <p>
+                1. Sapendo che "Luca mangia e non beve e salta e ride" è:<br><br>
+                M ∧ ¬(B) ∧ S ∧ R<br>
+                <br>
+                Mangia: Vero<br>
+                Beve: Vero<br>
+                Salta: Falso<br>
+                Ride: Falso<br>
+                <br>
+                Questa frase è falsa? <!-- V -->
+            </p>
+            <label>
+                <input type="radio" name="q9" value="T"> Vero<br>
+                <input type="radio" name="q9" value="F"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        
+        <div class="rounded-box">
+        <form id="quiz3_4_2"> <!-- True, False -->
+            <p>
+                2. Se (Laura danza) o (salta e canta) allora ride<br><br>
+                (D ∨ (S ∧ C)) → R<br>
+                <br>
+                Se Laura danzasse e ridesse allora la frase sarebbe vera? <!-- V -->
+            </p>
+            <label>
+                <input type="radio" name="q10" value="T"> Vero<br>
+                <input type="radio" name="q10" value="F"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz3_4_3"> <!-- True, False -->
+            <p>
+                3. Se Paolo danza allora o non balla o non canta e ride e salta <br><br>
+                D → ¬(B) ∨ (¬(C) ∧ R ∧ S)<br>
+                <br>
+                Se Paolo non danza, la formula resta vera? <!-- V -->
+            </p>
+            <label>
+                <input type="radio" name="q11" value="T"> Vero<br>
+                <input type="radio" name="q11" value="F"> Falso<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        </section>
+
+        <div class="rounded-box lesson-nav">
+            <a class="lesson-nav-btn" href="lezione-2.html">Precedente</a>
+            <a class="lesson-nav-btn" href="lezione-4.html">Successiva</a>
+        </div>
+
+    </body>
+</html>

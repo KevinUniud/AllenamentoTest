@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Differenza tra OR Logico e "O" Italiano</title>
+
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+        <link rel="stylesheet" href="../styles/errori.css">
+</head>
+
+<body class="esiste-original">
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+  <script src="../scripts/app.js"></script>
+
+<main id="main-content" tabindex="-1">
+
+<div class="container">
+
+  <h1>Differenza tra “O” Italiano e OR Logico (∨)</h1>
+
+  <!-- INTRO -->
+  <div class="rounded-box">
+
+    <h2>Idea Principale</h2>
+
+    <p>
+      Nel linguaggio italiano quotidiano,
+      la parola <span class="highlight">“o”</span>
+      viene spesso interpretata come:
+    </p>
+
+    <div class="formula">
+      “uno oppure l’altro, ma non entrambi”
+    </div>
+
+    <p>
+      In logica matematica invece,
+      l’operatore OR ( ∨ )
+      è <span class="highlight">inclusivo</span>.
+    </p>
+
+    <div class="formula">
+      P ∨ Q
+    </div>
+
+    <div class="note">
+      L'OR logico è vero anche quando
+      entrambe le proposizioni sono vere.
+    </div>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- COMPARISON -->
+  <div class="rounded-box">
+
+    <h2>Confronto</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>“O” Italiano</h3>
+
+        <ul>
+          <li>Interpreta “o” in modo esclusivo</li>
+          <li>Uno dei due eventi deve essere vero</li>
+          <li>Entrambi veri → falso</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>OR Logico ( ∨ )</h3>
+
+        <ul>
+          <li>Interpretazione inclusiva</li>
+          <li>Basta che almeno uno sia vero</li>
+          <li>Entrambi veri → vero</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p>Si può vedere nello specifico la differenza insiemistica nei seguenti due diagrammi che mostrano rispettivamente la "o" della lingua italiana (XOR) e l'OR della logica matematica.</p>
+
+    <div class="exists-gallery" aria-label="Venn XOR vs OR">
+      <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Venn0110.svg.png" alt="Venn XOR" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Venn0110.svg.png" alt="Venn XOR" loading="lazy">
+      </figure>
+            <figure class="exists-item">
+        <img class="exists-img exists-day" src="../Immagini/Venn0111.svg.png" alt="Venn OR" loading="lazy">
+        <img class="exists-img exists-night" src="../Immagini/Venn0111.svg.png" alt="Venn OR" loading="lazy">
+      </figure>
+    </div>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- TRUTH TABLE -->
+  <div class="rounded-box">
+
+    <h2>Tabella di Verità</h2>
+
+    <div class="table">
+    <table tabindex="0" aria-label="Tabella di verità di OR e XOR">
+
+      <thead>
+        <tr>
+          <th>P</th>
+          <th>Q</th>
+          <th>P ∨ Q</th>
+          <th>“O” Italiano</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="false">F</td>
+          <td class="false">F</td>
+          <td class="false">F</td>
+          <td class="false">F</td>
+        </tr>
+
+        <tr>
+          <td class="true">T</td>
+          <td class="false">F</td>
+          <td class="true">T</td>
+          <td class="true">T</td>
+        </tr>
+
+        <tr>
+          <td class="false">F</td>
+          <td class="true">T</td>
+          <td class="true">T</td>
+          <td class="true">T</td>
+        </tr>
+
+        <tr>
+          <td class="true">T</td>
+          <td class="true">T</td>
+          <td class="true">T</td>
+          <td class="false">F</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+    </div>
+
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- EXAMPLE -->
+  <div class="rounded-box">
+
+    <h2>Esempio</h2>
+
+    <div class="grid">
+
+      <div class="card">
+        <h3>Lingua italiana</h3>
+
+        <p>
+          “Puoi scegliere tè o caffè”
+        </p>
+
+        <p>
+          Di solito si intende soltanto uno.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Logica matematica</h3>
+
+        <p>
+          P = “prendo il tè”
+          <br>
+          Q = “prendo il caffè”
+        </p>
+
+        <div class="formula">
+          P ∨ Q
+        </div>
+
+        <p>
+          La frase è vera anche
+          se prendo entrambi.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- XOR -->
+  <div class="rounded-box">
+
+    <h2>OR Esclusivo (XOR)</h2>
+
+    <p>
+      In logica esiste anche
+      un operatore che rappresenta
+      l’“o” esclusivo italiano.
+    </p>
+
+    <div class="formula">
+      P ⊕ Q
+    </div>
+
+    <div class="note">
+      XOR è vero soltanto quando
+      esattamente una delle due
+      proposizioni è vera.
+    </div>
+
+  </div>
+
+</div>
+
+  <nav class="centered-action" aria-label="Navigazione errori comuni">
+    <a class="btn-wide" href="index.html">Torna a Errori Comuni</a>
+  </nav>
+
+</main>
+
+</body>
+</html>
+

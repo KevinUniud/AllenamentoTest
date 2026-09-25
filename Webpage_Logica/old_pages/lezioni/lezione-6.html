@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <title>Introduzione</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../styles/base.css">
+        <link rel="stylesheet" href="../styles/components.css">
+        <link rel="stylesheet" href="../styles/quiz.css">
+        <link rel="stylesheet" href="../styles/themes.css">
+    </head>
+    <body data-lesson-id="lesson-6">
+        <script src="../scripts/lesson-checks.js"></script>
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/lesson-progress.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+        <script src="../scripts/lesson-radio.js"></script>
+        <script src="../scripts/app.js"></script>
+
+        <details class="lesson-switcher">
+            <summary class="btn-wide lesson-switcher-symbol" title="Navigazione lezioni">☰</summary>
+            <div class="lesson-switcher-list">
+                <a class="lesson-switcher-link" href="../index.html">Indice</a>
+                <a class="lesson-switcher-link" href="lezione-1.html">Lezione 1</a>
+                <a class="lesson-switcher-link" href="lezione-2.html">Lezione 2</a>
+                <a class="lesson-switcher-link" href="lezione-3.html">Lezione 3</a>
+                <a class="lesson-switcher-link" href="lezione-4.html">Lezione 4</a>
+                <a class="lesson-switcher-link" href="lezione-5.html">Lezione 5</a>
+                <a class="lesson-switcher-link" href="lezione-6.html">Lezione 6</a>
+            </div>
+        </details>
+
+        <h1>Introduzione</h1>
+        <section id="lezione-6">
+            <h2>Lezione 6: Quantificatori e negazioni</h2>
+
+        <p>
+            Si introduce ora la notazione P(x), che rappresenta una proprietà o proposizione dipendente da una variabile x, cioè, P(x) è una frase il cui valore di verità dipende dallo specifico valore assegnato a x.<br><br>
+            Sapendo questo, possiamo ora introdurre anche:<br>
+            <div class="table_inv"> <!-- per ogni x P per ogni x vale la proprietà P dove x è un segnaposto per un qualcosa che compare scritto nella proprietà P -->
+            <table>
+                <thead>
+                    <tr>
+                        <td>∀x P(x)</td>
+                        <td>Per ogni x vale P(x)</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>∃x P(x)</td>
+                        <td>Esiste x tale che P(x)</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <br>
+            La loro comprensione è molto intuitiva ma è da notare che la loro negazione può essere meno chiara:
+            <ul>
+                <li> ¬∀x P(x) ↔ ∃x ¬P(x), per negare che tutti abbiano una certa proprietà, basta che qualcuno non ce l'abbia</li>
+                <li> ¬∃x P(x) ↔ ∀x ¬P(x), per negare che esista qualcuno che ha una certa proprietà bisogna dire che nessuno ce l'ha</li>
+            </ul>
+        </p><br>
+
+        <div class="rounded-box"> <!-- Array 6. -->
+        <form id="quiz6_1">
+            <p>
+                Si neghi dunque la seguente frase:<br><br> <!-- ∃ x ¬(f(x) → r(x)) -->
+                Ogni persona felice ride<br>
+                x = persona generica<br>
+                F(x) = "x è felice", R(x) = "x ride"<br>
+                ∀ x (F(x) → R(x))<br>
+            </p>
+            <label>
+                <input class="expressionInput" name="expr" type="text" readonly aria-label="Expression builder" placeholder="Clicca i bottoni per costruire l'espressione">
+
+                <div class="controls" aria-hidden="false">
+                    <button type="button" data-val=" → " class="btn-wide">→</button>
+                    <button type="button" data-val=" ∧ " class="btn-wide">∧</button>
+                    <button type="button" data-val=" ∨ " class="btn-wide">∨</button>
+                    <button type="button" data-val=" ¬" class="btn-wide">¬</button>
+                    <button type="button" data-val=" f(x) " class="btn-wide">f(x)</button>
+                    <button type="button" data-val=" r(x) " class="btn-wide">r(x)</button>
+                    <button type="button" data-val=" ( " class="btn-wide">(</button>
+                    <button type="button" data-val=" ) " class="btn-wide">)</button>
+                    <button type="button" data-val=" ∀x " class="btn-wide">∀x</button>
+                    <button type="button" data-val=" ∃x " class="btn-wide">∃x</button>
+                    <button type="button" class="deleteBtn" title="Cancella l'espressione" aria-label="Cancella l'espressione">Cancella</button>
+                </div>
+            </label>
+        </form><br>
+        <button type="button" data-check-index="6">Controlla risposta</button>
+        </div><br>
+
+        <p>
+            Si risolva quindi il seguente esercizio:
+        </p>
+
+        <div class="rounded-box">
+        <form id="quiz7_1"> <!-- True, False -->
+            <p>"Ogni cane salta o abbaia", negare questa frase significa dire che:<br></p>
+            <label>
+                <input type="radio" name="q16" value="F"> Ogni cane non salta e non abbaia<br> <!-- F -->
+                <input type="radio" name="q16" value="F"> Non ogni cane salta<br> <!-- F -->
+                <input type="radio" name="q16" value="F"> Non esiste un cane che salta ed abbaia<br> <!-- F -->
+                <input type="radio" name="q16" value="T"> Esiste un cane che non salta e non abbaia<br> <!-- V -->
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <div class="important">
+        <p>
+            <b>Importante</b>
+            <br>
+            ∀ x (S ∨ A) si nega così: ¬∀ x (S ∨ A) ↔ ∃ x ¬(S ∨ A) ↔ ∃ x (¬S ∧ ¬A)
+        </p>
+        </div><br>
+
+        <div class="rounded-box">
+        <form id="quiz7_2"> <!-- True, False -->
+            <p>"Non esiste un cane che salta ed abbaia" e "Ogni cane non salta e non abbaia" sono uguali?<br></p>
+            <label> <!-- Falsa -->
+                <input type="radio" name="q17" value="F"> Sì<br>
+                <input type="radio" name="q17" value="T"> No<br>
+            </label>
+        </form><br>
+        <button type="button" data-check-action="radio">Controlla risposta</button>
+        </div><br>
+
+        <p>
+            Ora che si hanno le basi si può proseguire con gli esercizi.
+        </p>
+
+        </section>
+
+        <div class="rounded-box lesson-nav">
+            <a class="lesson-nav-btn" href="lezione-5.html">Precedente</a>
+            <span class="lesson-nav-btn is-disabled">Successiva</span>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Equivalenza Logica</title>
+	
+	<link rel="stylesheet" href="../styles/base.css">
+	<link rel="stylesheet" href="../styles/components.css">
+	<link rel="stylesheet" href="../styles/quiz.css">
+	<link rel="stylesheet" href="../styles/themes.css">
+	<link rel="stylesheet" href="../styles/errori.css">
+</head>
+
+<body class="esiste-original">
+	
+        <script src="../scripts/settings-preferences.js"></script>
+        <script src="../scripts/app-events.js"></script>
+        <script src="../scripts/data-contracts.js"></script>
+        <script src="../scripts/privacy-controls.js"></script>
+        <script src="../scripts/app-storage.js"></script>
+        <script src="../scripts/settings.js?v=3"></script>
+	<script src="../scripts/app.js"></script>
+
+	<main id="main-content" tabindex="-1">
+	
+	<div class="container">
+		
+		<h1>Equivalenza</h1>
+		
+		<div class="rounded-box">
+			
+			<h2>Domanda</h2>
+			
+			<p>
+				Quale formula è equivalente a: P → (Q → R)?
+			</p>
+			<ul>
+				<li>P ∧ (Q → R)</li>
+				<li>¬P ∨ ¬Q ∨ R</li>
+				<li>P ∨ (Q → R)</li>
+				<li>¬P → (Q → R)</li>
+			</ul>
+			
+			<p>
+				Si può risolvere in due modi, useremo il primo metodo e il secondo come controllo:
+			</p>
+			<ol>
+				<li>Tabella di verità;</li>
+				<li>Formule di equivalenza.</li>
+			</ol>
+			
+		</div>
+		
+		<div class="arrow">↓</div>
+		
+		<div class="rounded-box">
+			
+			
+			<h2>Verifica con tabella di verità</h2>
+			
+			<p>
+				Usando la tabella di verità controlliamo le righe in cui la formula
+				originale è vera e verifichiamo quale delle risposte ha le stesse righe.
+			</p>
+			
+			<p>Notazione:</p>
+			<ul>
+				<li>S = Q → R</li>
+				<li>H = ¬P ∨ ¬Q</li>
+			</ul>
+			
+			<table class="truth-table" tabindex="0" aria-label="Tabella di verità dell’equivalenza">
+				<thead>
+					<tr>
+						<th>P</th>
+						<th>Q</th>
+						<th>R</th>
+						<th>S</th>
+						<th>P → S</th>
+						<th>P ∧ S</th>
+						<th>¬P</th>
+						<th>¬Q</th>
+						<th>H</th>
+						<th>H ∨ R</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>F</td>
+						<td>F</td>
+						<td>F</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+						<td class="cell-red">F</td>
+						<td>T</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+					</tr>
+					
+					<tr>
+						<td>F</td>
+						<td>F</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+						<td></td>
+						<td>T</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+					</tr>
+					
+					<tr>
+						<td>F</td>
+						<td>T</td>
+						<td>F</td>
+						<td>F</td>
+						<td class="cell-green">T</td>
+						<td></td>
+						<td>T</td>
+						<td>F</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+					</tr>
+					
+					<tr>
+						<td>F</td>
+						<td>T</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+						<td></td>
+						<td>T</td>
+						<td>F</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+					</tr>
+					
+					<tr>
+						<td>T</td>
+						<td>F</td>
+						<td>F</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+						<td></td>
+						<td>F</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+					</tr>
+					
+					<tr>
+						<td>T</td>
+						<td>F</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+						<td></td>
+						<td>F</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+					</tr>
+					
+					<tr>
+						<td>T</td>
+						<td>T</td>
+						<td>F</td>
+						<td>F</td>
+						<td class="cell-green">F</td>
+						<td></td>
+						<td>F</td>
+						<td>F</td>
+						<td>F</td>
+						<td class="cell-green">F</td>
+					</tr>
+					
+					<tr>
+						<td>T</td>
+						<td>T</td>
+						<td>T</td>
+						<td>T</td>
+						<td class="cell-green">T</td>
+						<td></td>
+						<td>F</td>
+						<td>F</td>
+						<td>F</td>
+						<td class="cell-green">T</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<p>In P ∧ S ci siamo fermati subito dato che già la prima riga non combaciava con la formula originale.</p>
+			
+			<p>
+				Si vede quindi che le righe di P → (Q → P) e ¬P ∨ ¬Q ∨ R sono uguali e ne consegue che sono equivalenti.
+			</p>
+		</div>
+		
+		<div class="arrow">↓</div>
+		
+		<div class="rounded-box">
+			<h2>Derivazione equivalente</h2>
+			
+			<p>Controlliamo quindi se l'equivalenza è corretta cercando di ottenere la seconda formula partendo dalla prima.</p>
+			
+			<p>Si ricorda la seguente equivalenza: A → B ≡ ¬A ∨ B.</p>
+			
+			<div class="formula">
+				P → (<u>Q → R</u>)
+				<div class="formula-comment">(Con A = Q e B = R)</div>
+			</div>
+			
+			<div class="arrow">↓</div>
+			
+			<div class="formula">
+				<u>P → (¬Q ∨ R)</u>
+				<div class="formula-comment">(Con A = ¬P e B = (¬Q ∨ R))</div>
+			</div>
+			
+			<div class="arrow">↓</div>
+			
+			<div class="formula">
+				<u>¬P ∨ (¬Q ∨ R)</u>
+			</div>
+			
+			<div class="arrow">↓</div>
+			
+			<div class="formula">
+				¬P ∨ ¬Q ∨ R
+			</div>
+			
+			<p>Abbiamo quindi verificato anche con la derivazione che la formula equivalente a P → (Q → R) è ¬P ∨ ¬Q ∨ R.</p>
+			
+		</div>
+		
+	</div>
+
+<nav class="centered-action" aria-label="Navigazione errori comuni">
+  <a class="btn-wide" href="index.html">Torna a Errori Comuni</a>
+</nav>
+
+</main>
+
+</body>
+</html>

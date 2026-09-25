@@ -5,7 +5,8 @@ const test = require('node:test');
 
 function collectHtml(directory) {
     return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
-        if (entry.isDirectory() && ['.git', 'node_modules', '.next', 'out', 'public', '.build', 'test-results', 'playwright-report'].includes(entry.name)) return [];
+        // Archived HTML is not published or consumed by the current frontend.
+        if (entry.isDirectory() && ['.git', 'node_modules', '.next', 'out', 'public', '.build', 'test-results', 'playwright-report', 'old_pages'].includes(entry.name)) return [];
         const item = path.join(directory, entry.name);
         if (entry.isDirectory()) return collectHtml(item);
         return entry.name.endsWith('.html') ? [item] : [];

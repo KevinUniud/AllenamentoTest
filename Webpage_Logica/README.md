@@ -297,6 +297,7 @@ risorse locali e connessioni alla stessa origine web.
 | `grafici/` | Pagina della galleria e unico SVG neutro privo di dati; tutti i grafici sono pubblicati a runtime dal servizio feedback. |
 | `lezioni/` | Sei contenuti didattici sequenziali con verifiche locali. |
 | `nginx/` | Template del server statico, proxy API, header di sicurezza e healthcheck. |
+| [`old_pages/`](old_pages/README.md) | Copia dei 21 HTML legacy, conservata per consultazione; gli originali restano sorgenti della migrazione. |
 | `ops/` | Preflight, deploy, smoke test e rollback del server; non e contenuto pubblico. |
 | `progressi/` | Dashboard personale calcolata da IndexedDB con filtri ed export. |
 | `ripasso/` | Quaderno personale e deduplicato degli errori salvati. |
