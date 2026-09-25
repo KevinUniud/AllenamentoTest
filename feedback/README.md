@@ -4,14 +4,17 @@ Servizio autonomo che riceve i report finali del quiz, conserva il payload JSON
 storico senza rinominare o normalizzare i dati inviati e pubblica, a intervalli
 configurabili, 22 grafici aggregati consumati da `Webpage_Logica`.
 
-questo servizio non contiene account, ruoli o aggregazioni dedicate ai docenti.
+Questo componente appartiene al repository unico TestLogica. Salvo un percorso
+esplicito, eseguire i comandi di questo README da `feedback/`.
+Il servizio non contiene account, ruoli o aggregazioni dedicate ai docenti.
 
 ## Prerequisito: dati eliminabili senza amministratore
 
-La distribuzione prevista usa due repository fratelli:
+Il clone mantiene i tre componenti nella stessa radice:
 
 ```text
-Progetti/
+<radice-repository>/
+├── API_Logica/
 ├── Webpage_Logica/
 └── feedback/
 ```
@@ -19,14 +22,15 @@ Progetti/
 Lo storage e un **bind mount** della directory `feedback/data`, non un volume Docker
 anonimo. I processi girano con lo stesso UID/GID dell'utente host; database, backup,
 heartbeat e grafici possono quindi essere copiati, spostati o cancellati senza
-`sudo`. Preparare i percorsi prima dell'avvio, come utente normale:
+`sudo`. Preparare i percorsi prima dell'avvio, come utente normale, partendo
+dalla radice del repository:
 
 ```bash
-cd Progetti/feedback
+cd feedback
 ./scripts/prepare-data.sh --write-env
 ```
 
-Se lo stack viene avviato dal repository Web, riportare gli stessi valori di
+Se lo stack viene avviato dal componente Web, riportare gli stessi valori di
 `FEEDBACK_UID` e `FEEDBACK_GID` anche in `Webpage_Logica/.env`. Docker ha
 `create_host_path: false`: se `feedback/data` manca, l'avvio fallisce invece di
 crearla come `root`.
@@ -40,7 +44,7 @@ proprietario di tutti gli elementi, permessi, accesso e contesto senza modificar
 nulla. La preparazione imposta `0700` sulle directory private.
 
 Lo script usa `FEEDBACK_DATA_DIR` dall'ambiente o da `.env`, risolvendo i percorsi
-relativi rispetto alla radice del repository come Compose. Percorsi che attraversano
+relativi rispetto alla directory `feedback/`, come Compose. Percorsi che attraversano
 symlink e destinazioni troppo ampie vengono rifiutati prima di creare directory o
 applicare contesti. Alla prima preparazione viene creato un marker privato: una
 directory esistente senza marker viene accettata solo se contiene esclusivamente
@@ -64,7 +68,7 @@ Il runtime contiene due processi distinti che condividono solo `/app/data`:
 Nel Compose integrato di `Webpage_Logica` entrambi sono sulla rete Docker
 `feedback-internal`, dichiarata `internal: true`, e non pubblicano la porta `5555`.
 Soltanto Nginx Web li raggiunge tramite DNS `http://feedback:5555`. Il Compose di
-questo repository pubblica opzionalmente `5555` sul solo loopback `127.0.0.1` per
+questo componente pubblica opzionalmente `5555` sul solo loopback `127.0.0.1` per
 sviluppo locale; la rete del servizio resta privata.
 
 La ricezione e il rendering sono disaccoppiati: un POST valido viene sincronizzato
@@ -122,7 +126,7 @@ rigenera automaticamente uno snapshot corrente mancante o corrotto.
 
 La soglia `k` non fornisce differential privacy e non impedisce, da sola, invii
 sintetici, inferenza per differenza o data poisoning. L'assetto raccomandato e quello
-privato tra i due repository; per un'esposizione Internet diretta servono
+privato tra i due servizi; per un'esposizione Internet diretta servono
 autenticazione, quota operativa e una policy statistica piu forte.
 
 ## Contratto HTTP
@@ -187,7 +191,7 @@ Il backup usa l'API SQLite, include i commit presenti nel WAL, viene sincronizza
 su disco con permesso `0600` e non sovrascrive mai un file esistente. I grafici sono
 derivati e possono essere rigenerati dal database.
 
-Per lo stack server integrato usare lo script dedicato dal repository `feedback`:
+Per lo stack server integrato usare lo script dedicato dalla directory `feedback/`:
 
 ```bash
 ./scripts/server-backup.sh --env-file ../Webpage_Logica/.env.server
@@ -242,21 +246,21 @@ stack arrestato.
 
 ## Avvio
 
-Avvio integrato raccomandato:
+Avvio integrato raccomandato, dalla radice del repository:
 
 ```bash
-cd Progetti/feedback
+cd feedback
 ./scripts/prepare-data.sh
 cd ../Webpage_Logica
 cp .env.example .env
 docker compose up --build
 ```
 
-Sul server effettivo non usare il Compose standalone di questo repository. Copiare
+Sul server effettivo non usare il Compose standalone di questo componente. Copiare
 `Webpage_Logica/.env.server.example` in `.env.server`, valorizzare UID/GID e un
 tag release univoco, le due revisioni sorgente e i percorsi assoluti sotto una
 directory persistente posseduta dall'utente di deployment. Distribuire prima
-`API_Logica`, quindi eseguire:
+`API_Logica`, quindi eseguire dalla directory `feedback/`:
 
 ```bash
 cd ../Webpage_Logica
@@ -270,16 +274,19 @@ a `127.0.0.1`; TLS, HSTS e rate limit per client appartengono all'edge descritto
 nel README Web. Lo stato di rollback resta in `DEPLOY_STATE_DIR`, fuori dalle
 directory release, mentre database e backup restano sempre nel bind persistente.
 
-Avvio standalone di sviluppo (porta disponibile soltanto su loopback):
+Avvio standalone di sviluppo dalla radice del repository (porta disponibile soltanto su loopback):
 
 ```bash
-cd Progetti/feedback
+cd feedback
 cp .env.example .env
 ./scripts/prepare-data.sh --write-env
 docker compose up --build
 ```
 
 ## Sviluppo, test e struttura
+
+Eseguire da `feedback/`. [Il workflow feedback](../.github/workflows/feedback.yml)
+nella radice del repository usa la stessa directory di lavoro.
 
 ```bash
 python -m venv .venv
@@ -305,11 +312,10 @@ docker build .
 | `scripts/prepare-data.sh` | Preparazione sicura del bind mount e UID/GID. |
 | `scripts/server-backup.sh` | Backup server consistente con verifica host e checksum SHA-256. |
 | `tests/` | Regressioni storage, HTTP, worker, privacy e grafici. |
-| `.github/` | CI e aggiornamenti dipendenze. |
+| [`../.github/workflows/feedback.yml`](../.github/workflows/feedback.yml) | CI centralizzata del servizio. |
+| [`../.github/dependabot.yml`](../.github/dependabot.yml) | Aggiornamenti dipendenze dei componenti del repository. |
 
 Gli script Python storici della radice sono stati rimossi: package, immagine e CI
 usano soltanto `feedback_service`. I dump e i grafici generati non vanno
-committati. Se la cronologia Git precedente contiene dati reali, cancellarli
-dall'HEAD non basta:
-prima della pubblicazione occorre approvare una riscrittura della storia oppure
-creare un repository pulito.
+committati. Le precedenti directory Git dei componenti sono state rimosse;
+il versionamento corrente appartiene alla radice del repository unico.

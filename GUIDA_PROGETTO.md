@@ -1,10 +1,10 @@
 # Guida operativa e mappa del codice di TestLogica
 
-Questa guida descrive come orientarsi nel workspace, quali file modificare per
+Questa guida descrive come orientarsi nel repository unico, quali file modificare per
 ogni responsabilità, come avviare l'intero progetto e come usare il servizio
 feedback.
 
-Il workspace contiene tre componenti autonomi:
+Il repository contiene tre componenti con build e runtime separati:
 
 | Directory | Responsabilità |
 | --- | --- |
@@ -14,6 +14,11 @@ Il workspace contiene tre componenti autonomi:
 
 I nomi dei percorsi sono case-sensitive su Linux. Usare esattamente
 API_Logica, Webpage_Logica, Errori_comuni e Immagini.
+
+La directory che contiene i tre componenti e la radice del clone. I blocchi
+che iniziano con `cd API_Logica`, `cd Webpage_Logica` o `cd feedback` partono
+da questa radice; eseguirli ciascuno da li, non in sequenza nella directory
+lasciata dal blocco precedente.
 
 ## Come comunicano i componenti
 
@@ -58,14 +63,14 @@ I confini da mantenere sono:
 | Cambiare conservazione feedback | feedback/feedback_service/storage.py | test_sqlite_storage.py e test_storage_maintenance.py |
 | Cambiare i grafici | feedback/feedback_service/data_processor.py, chart_generator.py e snapshots.py | test_external_worker.py e test_snapshot_cleanup.py |
 | Cambiare la galleria dei grafici | Webpage_Logica/scripts/feedback-charts.js e grafici/grafici.html | feedback-charts.test.js |
-| Cambiare Docker o deploy | I Compose, Dockerfile e script ops del singolo repository | compose config, build e smoke test |
+| Cambiare Docker o deploy | I Compose, Dockerfile e script ops del singolo componente | compose config, build e smoke test |
 
 ## Avvio completo in locale
 
 ### Prerequisiti
 
 - Docker Engine e Docker Compose v2, utilizzabili dall'utente corrente.
-- Le tre directory sorelle presenti con i nomi indicati sopra.
+- Il clone completo con le tre directory presenti nella stessa radice.
 - Le porte 5000 e 12345 libere.
 
 Non servono permessi amministrativi. Non usare sudo per preparare feedback o
@@ -74,7 +79,7 @@ essere cancellati normalmente.
 
 ### Prima configurazione
 
-Dalla radice di questo workspace:
+Dalla radice del repository:
 
 ~~~bash
 cp API_Logica/.env.example API_Logica/.env
@@ -145,6 +150,12 @@ Non aggiungere -v se si vogliono conservare i dati. Lo storage feedback è
 comunque un bind mount in feedback/data, non un volume anonimo.
 
 ## Test senza avviare tutto
+
+La CI e centralizzata nella `.github/workflows/` della radice: `api.yml`,
+`web.yml`, `feedback.yml` e `bundle.yml`. I workflow si avviano su push,
+pull request o richiesta manuale ed eseguono i comandi nella directory del
+rispettivo componente; i test del bundler lavorano dalla radice.
+`.github/dependabot.yml` configura gli aggiornamenti delle dipendenze.
 
 ### API
 
@@ -233,18 +244,19 @@ e operazioni che si modificano manualmente. Non elenca internamente .git,
 ambienti virtuali, cache, egg-info, database/WAL e snapshot generati. I
 file .env reali sono citati per ruolo, senza mostrarne i valori.
 
-### Radice del workspace
+### Radice del repository
 
 | File | Come usarlo |
 | --- | --- |
 | GUIDA_PROGETTO.md | Questa guida operativa trasversale. |
-| README.md | Definisce architettura, confini dei tre repository e deployment. È la fonte canonica del workspace. |
+| README.md | Definisce architettura, confini dei tre componenti e deployment. È la fonte canonica del repository. |
 | fast_test.md | Contiene unicamente i due comandi Compose di avvio locale. |
-| .gitignore | Esclude artefatti locali e sensibili del workspace. |
-| FEATURE_BACKLOG.md | Backlog storico, non contratto operativo corrente. |
-| FEATURE_IMPLEMENTATION_ROADMAP.md | Stato storico delle funzionalità; il punto 15 resta escluso. |
-| FORMULA_CONSTRUCTION_PLAN.md | Piano storico sulle trace di formula. |
-| MIGRATION.md | Note storiche della migrazione a Linux. |
+| .gitignore | Esclude artefatti locali e sensibili del repository. |
+| .github/workflows/api.yml | Qualità Python, test Prolog e build dalla directory API_Logica. |
+| .github/workflows/web.yml | Test Node, export Next, TypeScript, Docker e browser dalla directory Webpage_Logica. |
+| .github/workflows/feedback.yml | Qualità Python, test e Docker dalla directory feedback. |
+| .github/workflows/bundle.yml | Test del confezionamento senza Git dalla radice. |
+| .github/dependabot.yml | Aggiornamenti Actions, Python, npm e Docker per i componenti. |
 
 ### API_Logica: configurazione e avvio
 
@@ -263,7 +275,7 @@ file .env reali sono citati per ruolo, senza mostrarne i valori.
 | API_Logica/.dockerignore | Esclude dal contesto Docker cache, dati locali e file non necessari. |
 | API_Logica/.gitignore | Esclude ambiente, cache, configurazioni reali e artefatti. |
 | API_Logica/.gitattributes | Normalizza terminatori e bit eseguibili per Linux. |
-| API_Logica/.github/workflows/ci.yml | CI di pytest, Ruff, mypy, test Prolog e build Docker. |
+| .github/workflows/api.yml | CI centralizzata di pytest, Ruff, mypy, test Prolog e build Docker. |
 
 ### API_Logica: livello HTTP
 
@@ -382,7 +394,7 @@ file .env reali sono citati per ruolo, senza mostrarne i valori.
 | Webpage_Logica/.dockerignore | Riduce il contesto di build ai file necessari. |
 | Webpage_Logica/.gitignore | Esclude configurazioni reali, cache e artefatti locali. |
 | Webpage_Logica/.gitattributes | Mantiene terminatori e permessi compatibili con Linux. |
-| Webpage_Logica/.github/workflows/ci.yml | Esegue verifica JavaScript, test, controlli Compose e build. |
+| .github/workflows/web.yml | CI centralizzata per JavaScript, export Next, TypeScript, Docker e browser. |
 | Webpage_Logica/nginx/default.conf.template | Routing interno: statici, API logica, ricezione feedback e grafici. |
 | Webpage_Logica/nginx/security-headers.conf | Header CSP e altre protezioni HTTP condivise. |
 | Webpage_Logica/deploy/nginx-edge.example.conf | Esempio di reverse proxy TLS host con HSTS e rate limit. |
@@ -675,8 +687,8 @@ Eseguire sempre prima dry-run. La sorgente non viene modificata.
 | feedback/.dockerignore | Esclude dati, cache e artefatti dal contesto Docker. |
 | feedback/.gitignore | Esclude database, grafici, report, env e cache. |
 | feedback/.gitattributes | Normalizza terminatori e permessi su Linux. |
-| feedback/.github/workflows/ci.yml | Esegue test, qualità statica e build del servizio. |
-| feedback/.github/dependabot.yml | Configura gli aggiornamenti automatici delle dipendenze del repository. |
+| .github/workflows/feedback.yml | CI centralizzata per test, qualità statica e build del servizio. |
+| .github/dependabot.yml | Configura gli aggiornamenti delle dipendenze di tutti i componenti. |
 | feedback/data/.gitkeep | Mantiene la directory vuota in Git; i contenuti reali sono persistenti e ignorati. |
 
 ### feedback: package applicativo
@@ -781,7 +793,7 @@ Dopo ogni modifica Web eseguire npm run verify e un controllo reale in browser.
 
 ## Avvio sul server
 
-Il server usa i Compose e gli script di produzione dei repository API e Web,
+Il server usa i Compose e gli script di produzione dei componenti API e Web,
 non il Compose standalone feedback. Preparare i due file reali:
 
 ~~~bash
@@ -805,7 +817,7 @@ Gli script eseguono preflight, build, avvio con attesa e smoke test; non fanno
 commit né push. Il Web deve essere pubblicato soltanto su loopback dietro il
 reverse proxy TLS dell'host. API e feedback restano su reti Docker private e non
 devono esporre le porte 5000 o 5555 a Internet. Per tutti i dettagli di release,
-backup, restore e rollback consultare i README dei singoli repository.
+backup, restore e rollback consultare i README dei singoli componenti.
 
 ## Checklist prima di consegnare una modifica
 

@@ -240,10 +240,14 @@ def _build_bundle(
             if not stat.S_ISREG(entry.info.st_mode):
                 raise BundleError(f"Configurazione non regolare: {entry.source}")
             entries.append(entry)
-    if os.path.lexists(workspace / "tools"):
-        entries.extend(scan_tree(workspace / "tools", "tools"))
-        if output.resolve().is_relative_to((workspace / "tools").resolve()):
-            raise BundleError("La directory di output deve essere esterna a tools")
+    for directory in ("tools", ".github"):
+        source = workspace / directory
+        if output.resolve().is_relative_to(source.resolve()):
+            raise BundleError(f"La directory di output deve essere esterna a {directory}")
+        if os.path.lexists(source):
+            # Root CI and packaging tools use the same exclusions and strict
+            # file-type checks as component sources; never include Git history.
+            entries.extend(scan_tree(source, directory))
 
     report_entry = None
     if verification_report is not None:

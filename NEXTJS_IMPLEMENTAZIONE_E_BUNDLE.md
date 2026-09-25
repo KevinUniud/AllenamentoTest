@@ -1,14 +1,21 @@
 # Implementazione di Next.js e bundle TestLogica
 
-Aggiornamento: 24 settembre 2026. Questa guida descrive l'integrazione ora
+Aggiornamento: 25 settembre 2026. Questa guida descrive l'integrazione ora
 presente nei sorgenti e i passi per proseguire la migrazione. I percorsi sono
-relativi alla directory che contiene `API_Logica`, `Webpage_Logica` e
-`feedback`. Gli esiti effettivi di collaudo sono in
-[VERIFICHE_RELEASE.md](VERIFICHE_RELEASE.md).
+relativi alla radice del repository unico, che contiene `API_Logica`,
+`Webpage_Logica` e `feedback`. Gli esiti dello snapshot del 24 settembre sono
+in [VERIFICHE_RELEASE.md](VERIFICHE_RELEASE.md); quel rapporto e il relativo
+bundle restano invariati e precedono la centralizzazione della CI.
 
 Le vecchie directory `.git` dei tre componenti sono state rimosse, come
 richiesto, senza creare ulteriori copie. Il confezionamento funziona senza
-Git; `.github`, `.gitignore` e `.gitattributes` restano sorgenti utili.
+Git. Il versionamento appartiene alla sola radice del repository; gli ignore
+e gli attributi dei componenti restano utili alle rispettive build.
+
+GitHub Actions usa i workflow centralizzati in `.github/workflows/`:
+`api.yml`, `web.yml`, `feedback.yml` e `bundle.yml`. I primi tre lavorano nella
+directory del componente, il quarto nella radice. Gli aggiornamenti delle
+dipendenze sono configurati in `.github/dependabot.yml`.
 
 ## 1. Stato dell'implementazione
 
@@ -103,7 +110,7 @@ Anche `.next/`, `out/` e `.build/` sono artefatti rigenerabili.
 
 ## 3. Installazione, sviluppo e build
 
-Dalla radice del workspace:
+Dalla radice del repository:
 
 ~~~bash
 cd Webpage_Logica
@@ -232,6 +239,7 @@ e tempi di caricamento prima di dichiarare miglioramenti prestazionali.
 
 I test Playwright usano un export reale servito da Nginx. Non usano
 `next dev`, perché non eserciterebbe CSP e redirect di produzione.
+Il blocco seguente parte dalla radice del repository.
 
 ~~~bash
 cd Webpage_Logica
@@ -269,6 +277,7 @@ Docker/Compose e accesso ai registry per ricostruire le immagini.
 
 ~~~text
 testlogica-<release>/
+├── .github/{workflows/,dependabot.yml}
 ├── API_Logica/
 ├── Webpage_Logica/
 ├── feedback/
@@ -283,7 +292,7 @@ testlogica-<release>/
 ~~~
 
 Sono inclusi sorgenti, asset originali, lockfile, test, Dockerfile, Compose,
-esempi env e operazioni di deploy. Sono esclusi cronologia Git, dipendenze,
+workflow centralizzati, esempi env e operazioni di deploy. Sono esclusi cronologia Git, dipendenze,
 build, cache, `public/` generata del Web, risultati Playwright, env reali,
 database, report/grafici utenti e credenziali note. I filtri sono espliciti
 in `tools/build-bundle.py`; non dipendono da `.gitignore`. Eventuali segreti
@@ -295,15 +304,17 @@ backup operativi del database restano esterni alla release.
 
 ### Comando di confezionamento
 
-Congelare le modifiche ai sorgenti, completare i controlli e compilare
-`VERIFICHE_RELEASE.md` con gli esiti reali. Dalla directory di questa guida:
+Congelare le modifiche ai sorgenti, completare i controlli e creare un nuovo
+rapporto `VERIFICHE_NUOVA_RELEASE.md` con gli esiti reali. Conservare il rapporto
+storico del 24 settembre; il nuovo rapporto verra inserito nel bundle con il
+nome canonico `VERIFICHE_RELEASE.md`. Dalla directory di questa guida:
 
 ~~~bash
 python3 -m unittest discover -s tools -p 'test_build_bundle.py'
 python3 tools/build-bundle.py \
-  --release testlogica-20260924-nextjs \
+  --release testlogica-20260925-monorepo \
   --output dist/bundles \
-  --verification-report VERIFICHE_RELEASE.md \
+  --verification-report VERIFICHE_NUOVA_RELEASE.md \
   --release-ready
 ~~~
 
@@ -328,12 +339,12 @@ commit Git. Il checksum del tar identifica l'intera consegna.
 
 ~~~bash
 cd dist/bundles
-sha256sum --check testlogica-20260924-nextjs.tar.gz.sha256
-tar --list --gzip --file testlogica-20260924-nextjs.tar.gz
+sha256sum --check testlogica-20260925-monorepo.tar.gz.sha256
+tar --list --gzip --file testlogica-20260925-monorepo.tar.gz
 mkdir verifica-nextjs
 tar --extract --gzip --no-same-owner \
-  --file testlogica-20260924-nextjs.tar.gz --directory verifica-nextjs
-cd verifica-nextjs/testlogica-20260924-nextjs
+  --file testlogica-20260925-monorepo.tar.gz --directory verifica-nextjs
+cd verifica-nextjs/testlogica-20260925-monorepo
 sha256sum --check SHA256SUMS
 cd Webpage_Logica
 npm ci
@@ -392,4 +403,3 @@ il loro comportamento sui tag già presenti: i tag release sono immutabili
 e un percorso che tenta di ricostruirli viene rifiutato. Documentare e
 collaudare una procedura di avvio con `--no-build` o un'estensione esplicita
 dei deploy script prima di consegnare un bundle dichiarato offline.
-

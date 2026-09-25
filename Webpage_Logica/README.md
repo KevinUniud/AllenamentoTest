@@ -4,10 +4,10 @@ Frontend didattico di TestLogica con Next.js App Router, React e TypeScript,
 esportato in file statici e servito da Nginx. Offre lezioni, quiz generati dall'API, progressi personali,
 quaderno degli errori, grafici, modalita parlata e un Laboratorio di logica.
 
-Questa directory e la radice del repository **Webpage**. Il codice e i test Web
-restano autonomi; il Compose integrato si aspetta invece il repository `feedback`
-come cartella sorella. L'API logica resta esterna ed e raggiunta tramite un
-upstream configurabile.
+Questa directory contiene il componente Web del repository unico TestLogica.
+Build e test Web si eseguono da `Webpage_Logica/`; il Compose integrato usa
+`../feedback` come contesto del servizio feedback. L'API logica resta un servizio
+separato ed e raggiunta tramite un upstream configurabile.
 
 ## Funzionalita e confini
 
@@ -33,7 +33,7 @@ deployment standard vengono inviati al massimo 50 elementi per richiesta.
 - Node.js 24 e npm per sviluppo, controlli e build.
 - Docker con Compose v2 per l'avvio containerizzato.
 - Un'istanza separata di TestLogica API per quiz e analisi del Laboratorio.
-- Il repository `feedback` collocato accanto a `Webpage_Logica` per l'avvio Compose.
+- La directory `feedback` accanto a `Webpage_Logica`, come nel clone completo.
 
 Installare le dipendenze bloccate in `package-lock.json` con `npm ci`.
 Tutti i percorsi sono case-sensitive su
@@ -44,17 +44,18 @@ Linux; in particolare `Immagini/` usa la `I` maiuscola.
 La struttura prevista e:
 
 ```text
-Progetti/
+<radice-repository>/
+├── API_Logica/
 ├── Webpage_Logica/
 └── feedback/
 ```
 
 Creare la directory persistente come utente normale **prima** dell'avvio. In
 questo modo Docker non la crea come `root` e ricevute e grafici restano cancellabili
-senza permessi amministrativi:
+senza permessi amministrativi. Dalla radice del repository:
 
 ```bash
-cd Progetti/feedback
+cd feedback
 ./scripts/prepare-data.sh --write-env
 cd ../Webpage_Logica
 cp .env.example .env
@@ -136,10 +137,10 @@ quell'utente e riportarli nei due `.env.server`. Da quel momento preparazione,
 backup, deploy, rollback e cancellazione dei dati si eseguono senza `sudo`; i
 container feedback usano lo stesso UID/GID dell'utente host.
 
-Preparazione di ogni release, come utente di deployment non amministratore:
+Preparazione di ogni release dalla sua radice, come utente di deployment non amministratore:
 
 ```bash
-cd Progetti/Webpage_Logica
+cd Webpage_Logica
 cp .env.server.example .env.server
 chmod 600 .env.server
 # Impostare RELEASE_TAG, WEB_RELEASE_REVISION, FEEDBACK_RELEASE_REVISION,
@@ -158,7 +159,7 @@ cd ../Webpage_Logica
 ./ops/server-deploy.sh
 ```
 
-Il deploy Web verifica repository e percorsi case-sensitive, configurazione,
+Il deploy Web verifica componenti e percorsi case-sensitive, configurazione,
 UID/GID, porta, rete privata e presenza dell'API; prepara il bind feedback con
 permessi privati; crea immagini locali taggate; esegue `compose up --wait` e smoke
 test senza inserire report feedback. Per default rifiuta worktree sporchi e tag
@@ -281,11 +282,11 @@ Il browser usa URL relativi `/api/...`: Nginx evita CORS e mixed content e inolt
 le richieste all'origine configurata. La Content Security Policy consente soltanto
 risorse locali e connessioni alla stessa origine web.
 
-## Struttura del repository
+## Struttura del componente
 
 | Percorso | Contenuto e responsabilita esclusiva |
 | --- | --- |
-| `.github/` | Workflow CI: verifica Node e build dell'immagine Docker. |
+| [`../.github/workflows/web.yml`](../.github/workflows/web.yml) | CI centralizzata: verifica Node, export, TypeScript, Docker e browser. |
 | `src/app/` | Layout, home, route statica parametrica e pagina 404 Next. |
 | `src/components/` | Home, impostazioni, provider condiviso e adattatore dei contenuti HTML. |
 | `src/services/`, `src/lib/` | Accesso al runtime browser e inventario/trasformazione delle pagine. |
@@ -403,7 +404,7 @@ aggregati versionati. Il browser ignora campi sconosciuti e URL forniti dal
 manifest, costruendo i percorsi da una lista chiusa e case-sensitive di 22 ID. I
 report individuali e i JSON grezzi non vengono richiesti ne esposti dalla pagina.
 Se il servizio non e disponibile o pubblica un manifest parziale, le card mancanti
-mostrano un unico SVG neutro. Il repository e l'immagine Docker Web non contengono
+mostrano un unico SVG neutro. Il componente e l'immagine Docker Web non contengono
 PNG storici, inclusi quelli demografici.
 
 La pagina mostra ultimo tentativo, data dell'ultima pubblicazione e numero di
@@ -417,7 +418,9 @@ mentre indisponibilita di rete e manifest non valido hanno messaggi distinti.
 
 `npm run verify` esegue il controllo sintattico di tutti gli script e l'intera suite
 Node. Eseguire poi `npm run build` e `npm run typecheck`; la build verifica anche
-gli hash CSP dell'export. La CI usa Node 24 e costruisce l'immagine Docker.
+gli hash CSP dell'export. [Il workflow Web](../.github/workflows/web.yml) nella
+radice del repository usa `Webpage_Logica/` come directory di lavoro, Node 24
+e l'immagine Nginx per il collaudo browser.
 I test includono percorsi Linux case-sensitive, CSP, contratti
 API, storage, cancellazione, flussi quiz, trace delle formule e dismissione PWA.
 

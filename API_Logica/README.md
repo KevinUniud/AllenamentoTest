@@ -4,9 +4,10 @@ Backend autonomo di TestLogica per generare e verificare esercizi di logica. Il
 servizio combina un dominio Python, un motore SWI-Prolog e un adattatore HTTP
 FastAPI con contratto OpenAPI 3.1.
 
-Questo repository contiene solo l'API. Il frontend `Webpage_Logica` è pubblicato
-separatamente e comunica con il servizio via HTTP: non sono necessari file nella
-directory padre né un checkout affiancato.
+Questa directory contiene il componente API del repository unico TestLogica.
+Il frontend `../Webpage_Logica` comunica con il servizio via HTTP. La build
+dell'API usa questa directory come contesto e non incorpora Web o feedback.
+Salvo un percorso esplicito, eseguire i comandi di questo README da `API_Logica/`.
 
 ## Funzionalità
 
@@ -35,7 +36,7 @@ prolog/                 regole e processo persistente SWI-Prolog
 
 | Percorso | Contenuto |
 | --- | --- |
-| `.github/` | Workflow CI per qualità Python, test SWI-Prolog e build Docker. |
+| [`../.github/workflows/api.yml`](../.github/workflows/api.yml) | CI centralizzata per qualità Python, test SWI-Prolog e build Docker. |
 | `server/` | Factory FastAPI, route, schemi Pydantic, esempi OpenAPI, CORS, request ID e traduzione degli errori. Non contiene algoritmi di generazione. |
 | `testlogica/` | AST, validazione, metriche, configurazione, facciata del generatore e orchestrazione del dominio. Non dipende dal frontend. |
 | `testlogica/questions/` | Builder distinti per equivalenza, valore di verità, conseguenza logica e traduzione. |
@@ -132,7 +133,7 @@ devono usare `transformation`, non `construction`. Esempio abbreviato:
 - ambiente Linux/macOS oppure un ambiente equivalente capace di eseguire i
   comandi indicati.
 
-Dalla radice del clone di questo repository:
+Dalla directory `API_Logica/` del clone:
 
 ```bash
 python3.11 -m venv .venv
@@ -166,7 +167,7 @@ usa Compose.
 | `MAX_BATCH_SIZE` | `50` | Numero massimo di domande in una singola richiesta batch, configurabile da 1 a 1000. È distinto dal limite di 100 domande di una sessione client. |
 | `CORS_ORIGINS` | localhost e 127.0.0.1 sulla porta 12345 | Origini HTTP/HTTPS separate da virgola; wildcard non ammessa. |
 | `SWI_PROLOG_PATH` | `swipl` | Eseguibile SWI-Prolog; utile per installazioni non standard. |
-| `PROLOG_DIR` | directory `prolog/` del clone | Percorso assoluto alternativo dei sorgenti Prolog. |
+| `PROLOG_DIR` | directory `API_Logica/prolog/` | Percorso assoluto alternativo dei sorgenti Prolog. |
 
 Esempio locale:
 
@@ -185,7 +186,7 @@ docker compose ps
 docker compose logs --follow testlogica-api
 ```
 
-Il Compose di questo repository avvia esclusivamente l'API, pubblica
+Il Compose di questo componente avvia esclusivamente l'API, pubblica
 `${API_PORT:-5000}` e considera pronto il container solo quando `/ready`
 conferma la disponibilità di SWI-Prolog. Il container usa un utente non root,
 filesystem in sola lettura e capability ridotte. L'immagine installa il runtime
@@ -385,24 +386,24 @@ semantica (default `0.95`) e sequenza deterministica; restituisce un codice di
 uscita diverso da zero quando un controllo non viene superato.
 
 Lo stress test completo è un collaudo manuale e non è invocato separatamente
-dal workflow CI. La CI esegue su Python 3.11 pytest (compresi i test di
+dal workflow CI. [Il workflow API](../.github/workflows/api.yml), nella radice
+del repository, lavora da `API_Logica/` ed esegue su Python 3.11 pytest (compresi i test di
 regressione versionati), Ruff, mypy, i test SWI-Prolog e la build Docker. I test
 HTTP coprono anche OpenAPI, validazione preventiva delle formule, compatibilità
 dei payload e request ID.
 
-## Repository separati e compatibilità
+## Componenti e compatibilità
 
-- Questo repository deve poter essere clonato, testato e avviato senza la
-  radice del precedente monorepo.
+- API, Web e feedback condividono un repository; i rispettivi Dockerfile,
+  test e runtime mantengono responsabilità separate.
 - Il punto 15 della roadmap (modalità docente) resta intenzionalmente escluso:
   non sono presenti endpoint, dati o ruoli dedicati.
-- `docker-compose.yml` è volutamente API-only. Un eventuale deployment
-  full-stack deve usare immagini pubblicate oppure una configurazione esterna,
-  non build context verso directory sorelle.
-- Il repository Web configura l'upstream verso questa API e deve includere la
+- `docker-compose.yml` avvia soltanto l'API. Per lo stack completo avviare poi
+  il Compose di `../Webpage_Logica`, che include Web e feedback.
+- Il componente Web configura l'upstream verso questa API e deve includere la
   propria origine in `CORS_ORIGINS` quando non usa un reverse proxy same-origin.
 - I consumer devono verificare `version` in `/api/capabilities` e il contratto
-  OpenAPI della release; tag compatibili tra i due repository evitano drift.
+  OpenAPI della release; distribuire versioni compatibili dei componenti.
 
 
 ## Licenza

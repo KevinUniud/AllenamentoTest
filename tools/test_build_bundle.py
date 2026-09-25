@@ -179,6 +179,64 @@ class BundleTests(unittest.TestCase):
         for component in self.COMPONENTS:
             self.assertIn(self.archive_name(f"{component}/source.txt"), members)
 
+    def test_root_github_configuration_is_included_with_checksums_and_private_files_excluded(self):
+        included = {
+            ".github/workflows/ci.yml": "name: Synthetic CI fixture\non: [push]\n",
+            ".github/dependabot.yml": "version: 2\nupdates: []\n",
+        }
+        excluded = (
+            ".github/.git/config",
+            ".github/.env",
+            ".github/.env.server",
+            ".github/.npmrc",
+            ".github/workflows/.npmrc",
+            ".github/secrets/token.txt",
+        )
+        for relative, content in included.items():
+            self.write(relative, content)
+        for relative in excluded:
+            self.write(relative, "synthetic private fixture\n")
+
+        members, contents = self.read_archive(self.build())
+        checksum_lines = contents[self.archive_name("SHA256SUMS")].decode("utf-8").splitlines()
+        for relative, content in included.items():
+            with self.subTest(included=relative):
+                expected = content.encode("utf-8")
+                self.assertEqual(contents[self.archive_name(relative)], expected)
+                self.assertIn(
+                    f"{hashlib.sha256(expected).hexdigest()}  ./{relative}", checksum_lines
+                )
+        for relative in excluded:
+            with self.subTest(excluded=relative):
+                self.assertNotIn(self.archive_name(relative), members)
+        for relative in (".github/.git", ".github/secrets"):
+            self.assertNotIn(self.archive_name(relative), members)
+
+    def test_root_github_symlink_is_rejected_before_output_creation(self):
+        (self.workspace / ".github").symlink_to(
+            self.workspace / "API_Logica", target_is_directory=True
+        )
+        with self.assertRaises(bundler.BundleError):
+            self.build()
+        self.assertFalse(self.output.exists())
+
+    def test_github_workflow_symlink_is_rejected_before_output_creation(self):
+        workflows = self.workspace / ".github/workflows"
+        workflows.mkdir(parents=True)
+        (workflows / "ci.yml").symlink_to(self.workspace / "API_Logica/source.txt")
+        with self.assertRaises(bundler.BundleError):
+            self.build()
+        self.assertFalse(self.output.exists())
+
+    def test_output_inside_absent_github_is_rejected_without_creating_it(self):
+        github = self.workspace / ".github"
+        self.assertFalse(github.exists())
+        for output in (github, github / "bundles"):
+            with self.subTest(output=output.relative_to(self.workspace)):
+                with self.assertRaises(bundler.BundleError):
+                    self.build(output)
+                self.assertFalse(github.exists())
+
     def test_next_sources_lockfile_and_asset_preparation_tool_are_included(self):
         for relative, content in self.NEXT_SOURCES.items():
             self.write(f"Webpage_Logica/{relative}", content)

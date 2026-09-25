@@ -1,4 +1,4 @@
-name: CI
+name: Feedback CI
 
 on:
   push:
@@ -9,8 +9,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: feedback-ci-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: feedback
 
 jobs:
   quality:
@@ -28,7 +32,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-          cache-dependency-path: pyproject.toml
+          cache-dependency-path: feedback/pyproject.toml
 
       - name: Install development dependencies
         env:

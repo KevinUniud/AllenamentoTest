@@ -1,12 +1,11 @@
-# TestLogica - workspace di integrazione
+# TestLogica
 
-Questa directory e soltanto il workspace locale usato per collaudare insieme i
-tre componenti TestLogica. Non deve essere pubblicata come un ulteriore
-repository e nessun file qui presente e richiesto dalle build autonome. Il
-workspace non contiene un Compose aggregato: si usano esclusivamente i Compose
-canonici dei repository autonomi.
+Questa directory e la radice del repository GitHub unico di TestLogica.
+Contiene API, Web e feedback, ciascuno con build e configurazione proprie.
+Non contiene un Compose aggregato: per avviare il progetto si usano i Compose
+dei componenti API e Web.
 
-I tre componenti autonomi da aggiornare sono:
+I tre componenti sono:
 
 | Directory del componente | Responsabilita | Documentazione canonica |
 | --- | --- | --- |
@@ -14,15 +13,20 @@ I tre componenti autonomi da aggiornare sono:
 | `Webpage_Logica/` | Next.js/React, contenuti didattici, Nginx e dati locali del browser | [TestLogica Web](Webpage_Logica/README.md) |
 | `feedback/` | Ricezione dei report, conservazione, elaborazione periodica e pubblicazione dei grafici | [TestLogica Feedback](feedback/README.md) |
 
-Le tre directory contengono il proprio Dockerfile, Compose, esempio delle
-variabili d'ambiente, ignore Git, attributi Linux, CI e istruzioni di
-pubblicazione. Possono quindi essere copiate separatamente nella radice dei tre
-repository, includendo i rispettivi file nascosti.
+Le tre directory mantengono Dockerfile, Compose, esempi delle variabili
+d'ambiente, test e istruzioni di deploy. I comandi di build e test si eseguono
+nella directory del componente indicata nel relativo README.
+
+I workflow GitHub Actions sono centralizzati in `.github/workflows/`:
+`api.yml`, `web.yml`, `feedback.yml` e `bundle.yml`. Si avviano su push, pull
+request o richiesta manuale; ciascuno usa la directory di lavoro appropriata.
+Gli aggiornamenti delle dipendenze sono configurati in `.github/dependabot.yml`.
 
 Le vecchie directory `.git` dei tre componenti sono state rimosse senza creare
-altre copie. Sorgenti, `.gitignore`, `.gitattributes` e workflow `.github` restano
-disponibili. La procedura del bundle usa snapshot dei file identificati tramite
-checksum e non richiede uno storico Git locale.
+altre copie. Il versionamento appartiene alla sola radice del repository;
+gli ignore e gli attributi dei componenti restano disponibili. La procedura del
+bundle usa snapshot dei file identificati tramite checksum e non richiede uno
+storico Git locale.
 
 ## Confini
 
@@ -36,7 +40,7 @@ checksum e non richiede uno storico Git locale.
 - Il punto 15, modalita docente, resta escluso da tutti i componenti.
 
 La ricerca globale, l'indicatore Online/Offline e la PWA sono stati rimossi dal
-repository Web. Un tombstone temporaneo del service worker resta distribuito
+componente Web. Un tombstone temporaneo del service worker resta distribuito
 senza cache o handler `fetch` unicamente per disattivare le installazioni delle
 release precedenti.
 
@@ -58,13 +62,8 @@ dei controller in React e la preparazione di un archivio sorgenti completo dei
 tre componenti, con manifest, checksum e istruzioni di installazione.
 Il confezionamento e automatizzato da `tools/build-bundle.py`; gli esiti del
 collaudo sono riportati in [VERIFICHE_RELEASE.md](VERIFICHE_RELEASE.md).
-La consegna sorgenti e `dist/bundles/testlogica-20260924-nextjs.tar.gz`,
+La consegna sorgenti del 24 settembre e `dist/bundles/testlogica-20260924-nextjs.tar.gz`,
 affiancata dal checksum SHA-256. Non include immagini Docker per uso offline.
 
-## Documenti storici del workspace
-
-`FEATURE_BACKLOG.md`, `FEATURE_IMPLEMENTATION_ROADMAP.md`,
-`FORMULA_CONSTRUCTION_PLAN.md` e `MIGRATION.md` restano materiale storico o di
-pianificazione del workspace. Non vengono copiati automaticamente nei tre
-repository e non sono fonti operative: i contratti correnti sono documentati nei
-README autonomi e nell'OpenAPI generata dal codice.
+Quell'archivio e uno snapshot storico precedente alla centralizzazione della CI;
+rimane invariato insieme al rapporto `VERIFICHE_RELEASE.md` della stessa consegna.
