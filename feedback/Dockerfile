@@ -1,4 +1,4 @@
-FROM python:3.11-slim-bookworm@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91 AS builder
+FROM python:3.15-slim-bookworm@sha256:4e03260adeeebafccd084f3584e6b84823aba5651cfb53ef8a078ed441ddf9cd AS builder
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_DEFAULT_TIMEOUT=120
@@ -42,7 +42,7 @@ RUN /opt/venv/bin/python -m ruff check feedback_service tests \
     && MPLCONFIGDIR=/tmp/matplotlib /opt/venv/bin/python -m pytest -p no:cacheprovider
 
 
-FROM python:3.11-slim-bookworm@sha256:2e32f7d302adc1c37428355c1e646897c0c53f4fd60b6a551245fb90ee129f91 AS runtime
+FROM python:3.15-slim-bookworm@sha256:4e03260adeeebafccd084f3584e6b84823aba5651cfb53ef8a078ed441ddf9cd AS runtime
 
 ENV HOME=/tmp \
     PATH=/opt/venv/bin:$PATH \
